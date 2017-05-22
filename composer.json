@@ -1,0 +1,28 @@
+{
+    "name": "corex/lmodel",
+    "type": "project",
+    "description": "Laravel Model (model, generator)",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "model",
+        "generator"
+    ],
+    "authors": [
+        {
+            "name": "CoRex",
+            "email": "dev@corex.dk",
+            "homepage": "http://corex.dk",
+            "role": "Project Founder"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "CoRex\\Laravel\\Model\\": "src/"
+        }
+    }
+}
