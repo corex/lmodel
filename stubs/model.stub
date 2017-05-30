@@ -1,0 +1,20 @@
+<?php
+
+namespace {{namespace}};
+
+{{uses}}
+/**
+{{phpdocProperties}}
+ */
+class {{Class}}{{extends}}
+{
+{{constants}}
+    // Attributes.
+    protected $connection = '{{connection}}';
+    protected $table = '{{table}}';
+    protected $fillable = [{{fillable}}];
+    protected $guarded = [{{guarded}}];
+
+    /* ---- Everything after this line will be preserved. ---- */
+{{preservedLines}}
+}
