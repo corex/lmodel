@@ -6,8 +6,8 @@ use CoRex\Laravel\Model\Model;
 
 /**
  * @property integer $id [TYPE=INTEGER, NULLABLE=0, DEFAULT=""]
- * @property string $migration [TYPE=STRING, NULLABLE=0, DEFAULT=""]
- * @property integer $batch [TYPE=INTEGER, NULLABLE=0, DEFAULT=""]
+ * @property string $name [TYPE=STRING, NULLABLE=0, DEFAULT=""]
+ * @property string $value [TYPE=STRING, NULLABLE=0, DEFAULT=""]
  */
 class Status extends Model
 {

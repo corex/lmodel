@@ -17,8 +17,9 @@ Connects to your existing database and auto-generates models based on existing s
 
 **Note: Generating a model that already exists will overwrite existing model, but every line below "preserve" identifier, will be preserved.**
 
+
 ## Installation
-Run ```"composer require corex/lmodel"```.
+Run ```"composer require corex/lmodel --dev"```.
 
 Add a configuration-file config/corex.php and add following code to it. Modify it to suit your needs.
 ```php
@@ -70,6 +71,7 @@ if ($this->app->environment() == 'local') {
 }
 ```
 
+
 ## Help
 ```php artisan help make:models```
 
@@ -79,3 +81,48 @@ Arguments:
 
 Options:
  - guarded: Comma separated list of guarded fields.
+
+
+## Examples
+
+Generated model from table status with config.
+
+```php
+<?php
+
+namespace App\Models\Test;
+
+use CoRex\Laravel\Model\Model;
+
+/**
+ * @property integer $id [TYPE=INTEGER, NULLABLE=0, DEFAULT=""]
+ * @property string $name [TYPE=STRING, NULLABLE=0, DEFAULT=""]
+ * @property string $value [TYPE=STRING, NULLABLE=0, DEFAULT=""]
+ */
+class Status extends Model
+{
+    // Constants.
+    const CONSTANT1 = 1;
+    const CONSTANT2 = 2;
+    const CONSTANT3 = 3;
+    const CONSTANT4 = 4;
+
+    // Attributes.
+    protected $connection = 'mysql';
+    protected $table = 'status';
+    protected $fillable = ['id', 'name', 'value'];
+    protected $guarded = [];
+
+    /* ---- Everything after this line will be preserved. ---- */
+
+    /**
+     * Preserve this method.
+     *
+     * @return string
+     */
+    public function preserveThisMethod()
+    {
+        return 'preserved';
+    }
+}
+```
