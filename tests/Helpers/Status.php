@@ -18,6 +18,7 @@ class Status extends Model
     const CONSTANT4 = 4;
 
     // Attributes.
+    public $timestamps = false;
     protected $connection = 'test_connection';
     protected $table = 'status';
     protected $fillable = ['id', 'name', 'value'];

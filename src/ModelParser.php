@@ -76,4 +76,21 @@ class ModelParser
         }
         return $lines;
     }
+
+    /**
+     * Get timestamps.
+     *
+     * @return boolean
+     */
+    public function getTimestamps()
+    {
+        $timestamps = 'false';
+        foreach ($this->lines as $line) {
+            if (Str::contains($line, 'public $timestamps')) {
+                $line = explode(' ', $line);
+                $timestamps = trim(last($line), ';');
+            }
+        }
+        return strtolower($timestamps) == 'true';
+    }
 }

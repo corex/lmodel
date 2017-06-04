@@ -7,13 +7,14 @@ Auto-generate models with constants, preserved lines, phpdoc, etc. for Laravel 5
 
 Connects to your existing database and auto-generates models based on existing schema.
  - Support for multiple connections.
- - Support for magic properties (phpdoc).
+ - Support for auto-completion via magic properties (phpdoc).
  - Support for custom methods (preserved lines).
  - Support for guarded fields.
  - Support for custom "extends".
  - Support for extra field-attributes after magic properties.
  - Support for building constants in model.
  - Support for custom "indent".
+ - Support for preserving $timestamps value.
 
 **Note: Generating a model that already exists will overwrite existing model, but every line below "preserve" identifier, will be preserved.**
 
@@ -108,6 +109,7 @@ class Status extends Model
     const CONSTANT4 = 4;
 
     // Attributes.
+    public $timestamps = false;
     protected $connection = 'mysql';
     protected $table = 'status';
     protected $fillable = ['id', 'name', 'value'];
