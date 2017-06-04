@@ -203,6 +203,7 @@ class ModelBuilderTest extends TestCase
         $this->assertEquals('C' . strtoupper($dataCheck1), $keys[0]);
         $this->assertEquals('C' . strtoupper($dataCheck2), $keys[1]);
         $this->assertEquals([], $tokens['preservedLines']);
+        $this->assertFalse($tokens['timestamps']);
     }
 
     /**

@@ -142,6 +142,10 @@ class ModelBuilder
             $stub = str_replace('{{preservedLines}}', implode("\n", $preservedLines), $stub);
         }
 
+        // Timestamps.
+        $timestamps = $tokens['timestamps'] ? 'true' : 'false';
+        $stub = str_replace('{{timestamps}}', $timestamps, $stub);
+
         return $this->removeTagLines($stub);
     }
 
@@ -186,6 +190,7 @@ class ModelBuilder
             $this->tokens['guarded'] = $this->guardedAttributes;
             $this->tokens['constants'] = $this->getConstants();
             $this->tokens['preservedLines'] = $this->modelParser->getPreservedLines();
+            $this->tokens['timestamps'] = $this->modelParser->getTimestamps();
         }
         return $this->tokens;
     }
