@@ -22,32 +22,31 @@ Connects to your existing database and auto-generates models based on existing s
 ## Installation
 Run ```"composer require corex/lmodel --dev"```.
 
-Add a configuration-file config/corex.php and add following code to it. Modify it to suit your needs.
+Add a configuration-file config/corex/lmodel.php and add following code to it. Modify it to suit your needs.
 ```php
 return [
-    'lmodel' => [
-        'path' => base_path('app/Models'),
-        'namespace' => 'App\Models',
-        'addConnection' => true,
-        'extends' => '',
-        'indent' => "\t",
-        'length' => 120,
-        'const' => [
-            '{connection}' => [
-                '{table}' => [
-                    'id' => '{id}',
-                    'name' => '{name}',
-                    'prefix' => '{prefix}',
-                    'suffix' => '{suffix}',
-                    'replace' => [
-                        'XXXX' => 'YYYY',
-                    ]
+    'path' => base_path('app/Models'),
+    'namespace' => 'App\Models',
+    'addConnection' => true,
+    'extends' => '',
+    'indent' => "\t",
+    'length' => 120,
+    'const' => [
+        '{connection}' => [
+            '{table}' => [
+                'id' => '{id}',
+                'name' => '{name}',
+                'prefix' => '{prefix}',
+                'suffix' => '{suffix}',
+                'replace' => [
+                    'XXXX' => 'YYYY',
                 ]
             ]
         ]
     ]
 ];
 ```
+Note: old config/corex.php is still supported but not recommended.
 
 Settings:
  - **path** - where models are saved.
