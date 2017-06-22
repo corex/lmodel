@@ -1,6 +1,6 @@
 {
     "name": "corex/lmodel",
-    "type": "project",
+    "type": "library",
     "description": "Laravel Model (generator, constants, preserved lines, phpdoc)",
     "license": "MIT",
     "keywords": [
