@@ -11,9 +11,7 @@
     "authors": [
         {
             "name": "CoRex",
-            "email": "dev@corex.dk",
-            "homepage": "http://corex.dk",
-            "role": "Project Founder"
+            "email": "dev@corex.dk"
         }
     ],
     "require": {

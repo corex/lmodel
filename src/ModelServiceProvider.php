@@ -5,7 +5,7 @@ namespace CoRex\Laravel\Model;
 use CoRex\Laravel\Model\Commands\MakeModelsCommand;
 use Illuminate\Support\ServiceProvider;
 
-class ModelProvider extends ServiceProvider
+class ModelServiceProvider extends ServiceProvider
 {
     /**
      * Register the application services.
