@@ -4,6 +4,8 @@ namespace CoRex\Laravel\Model;
 
 class Config
 {
+    private static $overrideValues;
+
     /**
      * Validate.
      *
@@ -12,17 +14,18 @@ class Config
     public static function validate()
     {
         // Validate path.
-        if (empty(self::value('path'))) {
+        if (self::value('path') === null) {
             throw new \Exception('[' . self::fullPath('path') . '] not set');
         }
 
         // Validate namespace.
-        if (empty(self::value('namespace'))) {
+        if (self::value('namespace') === null) {
             throw new \Exception('[' . self::fullPath('namespace') . '] not set');
         }
 
         // Validate addConnection.
-        if (empty(self::value('addConnection'))) {
+        if (self::value('addConnection') === null) {
+
             throw new \Exception('[' . self::fullPath('addConnection') . '] not set');
         }
     }
@@ -48,11 +51,99 @@ class Config
      */
     public static function value($path, $defaultValue = null)
     {
-        $value = config(self::fullPath($path));
-        if (!empty($value)) {
-            return $value;
+        if (!is_array(self::$overrideValues)) {
+            self::$overrideValues = [];
         }
-        return $defaultValue;
+        $path = self::fullPath($path);
+        if (isset(self::$overrideValues[$path])) {
+            $value = self::$overrideValues[$path];
+        } else {
+            $value = config($path);
+        }
+        if ($value === null) {
+            return $defaultValue;
+        }
+        return $value;
+    }
+
+    /**
+     * Clear overrides.
+     */
+    public static function clearOverrides()
+    {
+        self::$overrideValues = [];
+    }
+
+    /**
+     * Set path override.
+     *
+     * @param string $path
+     */
+    public static function setPathOverride($path)
+    {
+        self::setValue('path', $path);
+    }
+
+    /**
+     * Set namespace override.
+     *
+     * @param string $namespace
+     */
+    public static function setNamespaceOverride($namespace)
+    {
+        self::setValue('namespace', $namespace);
+    }
+
+    /**
+     * Set addConnection override.
+     *
+     * @param boolean $addConnection
+     */
+    public static function setAddConnection($addConnection)
+    {
+        self::setValue('addConnection', $addConnection);
+    }
+
+    /**
+     * Set extends override.
+     *
+     * @param string $extends
+     */
+    public static function setExtendsOverride($extends)
+    {
+        self::setValue('extends', $extends);
+    }
+
+    /**
+     * Set indent override.
+     *
+     * @param string $indent
+     */
+    public static function setIndentOverride($indent)
+    {
+        self::setValue('indent', $indent);
+    }
+
+    /**
+     * Set length override.
+     *
+     * @param integer $length
+     */
+    public static function setLengthOverride($length)
+    {
+        self::setValue('length', $length);
+    }
+
+    /**
+     * Set value.
+     *
+     * @param string $path
+     * @param mixed $value
+     */
+    private static function setValue($path, $value)
+    {
+        $path = 'corex.' . self::packageName() . '.' . $path;
+        self::$overrideValues[$path] = $value;
     }
 
     /**
