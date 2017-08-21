@@ -67,7 +67,7 @@ Settings:
 To register it and make sure you have this option available for development only, add following code to AppServiceProviders@register method.
 ```php
 if ($this->app->environment() == 'local') {
-    $this->app->register('CoRex\Laravel\Model\ModelProvider');
+    $this->app->register('CoRex\Laravel\Model\ModelServiceProvider');
 }
 ```
 
