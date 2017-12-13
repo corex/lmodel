@@ -28,7 +28,7 @@ return [
     'path' => base_path('app/Models'),
     'namespace' => 'App\Models',
     'addConnection' => true,
-    'extends' => '',
+    'extends' => \Illuminate\Database\Eloquent\Model::class,
     'indent' => "\t",
     'length' => 120,
     'const' => [
@@ -52,7 +52,7 @@ Settings:
  - **path** - where models are saved.
  - **namespace** - namespace of models.
  - **addConnection** - true/false if name of database-connection should be applied to namespace/directory. Name will automatically be converted to PascalCase.
- - **extends** - (optional) class to extend instead of "Illuminate\Database\Eloquent\Model". Default ''.
+ - **extends** - Class to extend.
  - **indent** - (optional) String to use as indent i.e. "\t". Default 4 spaces.
  - **length** - (optional) Length of line before linebreak. Used in tables with many fields.
  - **const** - (optional) This section is used to specify connections and tables which should contains constants from content of table.
@@ -92,7 +92,7 @@ Generated model from table status with config.
 
 namespace App\Models\Test;
 
-use CoRex\Laravel\Model\Model;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id [TYPE=INTEGER, NULLABLE=0, DEFAULT=""]
