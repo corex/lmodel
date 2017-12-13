@@ -1,6 +1,7 @@
 <?php
 
 use CoRex\Laravel\Model\Commands\MakeModelsCommand;
+use Illuminate\Database\Eloquent\Model;
 use Orchestra\Testbench\TestCase;
 
 class MakeModelsCommandTest extends TestCase
@@ -20,6 +21,7 @@ class MakeModelsCommandTest extends TestCase
                 'path' => $path,
                 'namespace' => 'App\Models',
                 'addConnection' => true,
+                'extends' => Model::class,
                 'const' => [
                     $this->connection => [
                         $this->table => [

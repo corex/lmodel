@@ -25,8 +25,12 @@ class Config
 
         // Validate addConnection.
         if (self::value('addConnection') === null) {
-
             throw new \Exception('[' . self::fullPath('addConnection') . '] not set');
+        }
+
+        // Validate extend.
+        if (self::value('extends') === null || empty(self::value('extends'))) {
+            throw new \Exception('[' . self::fullPath('extends') . '] not set');
         }
     }
 

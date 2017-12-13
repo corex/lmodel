@@ -68,11 +68,13 @@ class ModelBuilder
      * Generate model.
      *
      * @return string
+     * @throws \Exception
      */
     public function generateModel()
     {
         // Base/stub.
         $stub = file_get_contents(dirname(__DIR__) . '/stubs/model.stub');
+        $stub = $this->prepareStubForIndent($stub);
         $tokens = $this->getTokens();
 
         // Namespace.
@@ -137,6 +139,9 @@ class ModelBuilder
         $preservedLines = $tokens['preservedLines'];
         if (count($preservedLines) > 0) {
             $preservedLines = array_map(function ($preservedLine) {
+                if (trim($preservedLine) == '') {
+                    return '';
+                }
                 return $this->getIndent() . $preservedLine;
             }, $preservedLines);
             $stub = str_replace('{{preservedLines}}', implode("\n", $preservedLines), $stub);
@@ -169,6 +174,7 @@ class ModelBuilder
      * Get tokens.
      *
      * @return array
+     * @throws \Exception
      */
     private function getTokens()
     {
@@ -274,6 +280,11 @@ class ModelBuilder
      */
     private function getSplitLines($length, array $items, $prefix)
     {
+        // Make sure we are less than max length if indent is "\t".
+        if ($this->getIndent() == "\t") {
+            $length -= 10;
+        }
+
         $prefix2 = str_repeat($prefix, 2);
         $lines = [$prefix2];
         if (count($items) == 0) {
@@ -285,12 +296,12 @@ class ModelBuilder
             $preparedItem = '\'' . $item . '\'';
 
             // Add line if adding item makes line to long.
-            if (strlen($lines[count($lines) - 1] . ' ' . $preparedItem) > $length) {
+            if (strlen($lines[count($lines) - 1] . ' ' . $preparedItem . ',') > $length) {
                 $lines[] = $prefix2;
             }
 
             // Add item.
-            if ($lines[count($lines) - 1] != $prefix) {
+            if ($lines[count($lines) - 1] != $prefix2) {
                 $lines[count($lines) - 1] .= ' ';
             }
             $lines[count($lines) - 1] .= $preparedItem;
@@ -451,5 +462,29 @@ class ModelBuilder
         }
         $parts[] = Str::studly($this->table) . ucfirst($type) . '.php';
         return implode('/', $parts);
+    }
+
+    /**
+     * Prepare stub for indent.
+     *
+     * @param string $stub
+     * @return string
+     */
+    private function prepareStubForIndent($stub)
+    {
+        $lines = explode("\n", $stub);
+        $inBrackets = false;
+        foreach ($lines as $index => $line) {
+            if ($inBrackets && trim($line) == '}') {
+                $inBrackets = false;
+            }
+            if ($inBrackets) {
+                $lines[$index] = $this->getIndent() . ltrim($line);
+            }
+            if (trim($line) == '{') {
+                $inBrackets = true;
+            }
+        }
+        return implode("\n", $lines);
     }
 }

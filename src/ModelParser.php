@@ -66,11 +66,11 @@ class ModelParser
                     $line = substr($line, strlen(Constants::DEFAULT_INDENT));
                 }
                 if (substr($line, 0, 1) == "\t") {
-                    $line = substr($line, 0, 1);
+                    $line = substr($line, 1);
                 }
                 $lines[] = $line;
             }
-            if (Str::contains($line, Constants::PRESERVED_IDENTIFIER)) {
+            if (!$add && Str::contains($line, Constants::PRESERVED_IDENTIFIER)) {
                 $add = true;
             }
         }

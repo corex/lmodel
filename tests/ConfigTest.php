@@ -7,6 +7,7 @@ class ConfigTest extends TestCase
 {
     /**
      * Test validate.
+     * @throws Exception
      */
     public function testValidate()
     {
@@ -15,17 +16,20 @@ class ConfigTest extends TestCase
             'lmodel' => [
                 'path' => $check,
                 'namespace' => $check,
-                'addConnection' => $check
+                'addConnection' => $check,
+                'extends' => $check
             ]
         ]);
         Config::validate();
         $this->assertEquals($check, config('corex.lmodel.path'));
         $this->assertEquals($check, config('corex.lmodel.namespace'));
         $this->assertEquals($check, config('corex.lmodel.addConnection'));
+        $this->assertEquals($check, config('corex.lmodel.extends'));
     }
 
     /**
      * Test validate path not set.
+     * @throws Exception
      */
     public function testValidatePathNotSet()
     {
@@ -33,7 +37,8 @@ class ConfigTest extends TestCase
         $this->app['config']->set('corex', [
             'lmodel' => [
                 'namespace' => $check,
-                'addConnection' => $check
+                'addConnection' => $check,
+                'extends' => $check
             ]
         ]);
         $this->expectException(Exception::class);
@@ -43,6 +48,7 @@ class ConfigTest extends TestCase
 
     /**
      * Test validate namespace not set.
+     * @throws Exception
      */
     public function testValidateNamespaceNotSet()
     {
@@ -50,7 +56,8 @@ class ConfigTest extends TestCase
         $this->app['config']->set('corex', [
             'lmodel' => [
                 'path' => $check,
-                'addConnection' => $check
+                'addConnection' => $check,
+                'extends' => $check
             ]
         ]);
         $this->expectException(Exception::class);
@@ -60,18 +67,39 @@ class ConfigTest extends TestCase
 
     /**
      * Test validate addConnection not set.
+     * @throws Exception
      */
-    public function testValidateAddConnectionSet()
+    public function testValidateAddConnectionNotSet()
     {
         $check = md5(microtime());
         $this->app['config']->set('corex', [
             'lmodel' => [
                 'path' => $check,
                 'namespace' => $check,
+                'extends' => $check
             ]
         ]);
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('[corex.lmodel.addConnection] not set');
+        Config::validate();
+    }
+
+    /**
+     * Test validate addConnection not set.
+     * @throws Exception
+     */
+    public function testValidateExtendsNotSet()
+    {
+        $check = md5(microtime());
+        $this->app['config']->set('corex', [
+            'lmodel' => [
+                'path' => $check,
+                'addConnection' => $check,
+                'namespace' => $check
+            ]
+        ]);
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('[corex.lmodel.extends] not set');
         Config::validate();
     }
 
@@ -116,7 +144,7 @@ class ConfigTest extends TestCase
                     $connection => [
                         $table => [
                             'id' => $check1,
-                            'name' => $check2,
+                            'name' => $check2
                         ]
                     ]
                 ],

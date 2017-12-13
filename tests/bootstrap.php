@@ -34,7 +34,6 @@ try {
     });
     Facade::setFacadeApplication($app);
     DB::connection($connection)->getPdo();
-
 } catch (Exception $e) {
     print($e->getMessage() . "\n");
     exit;
