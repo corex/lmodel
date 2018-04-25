@@ -15,6 +15,7 @@ Connects to your existing database and auto-generates models based on existing s
  - Support for building constants in model.
  - Support for custom "indent".
  - Support for preserving $timestamps value.
+ - Support for column of type "enum" (mapped to string).
 
 **Note: Generating a model that already exists will overwrite existing model, but every line below "preserve" identifier, will be preserved.**
 

@@ -17,6 +17,7 @@ class StatusTable extends Migration
             $table->increments('id');
             $table->string('firstname', 100);
             $table->string('lastname', 100);
+            $table->enum('status', ['new', 'open', 'closed']);
         });
     }
 

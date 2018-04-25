@@ -37,6 +37,7 @@ class ModelBuilder
         $this->tokens = [];
 
         // Get schema.
+        $this->getDoctrineSchemaManager()->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
         if (!$this->getDoctrineSchemaManager()->tablesExist([$this->table])) {
             throw new \Exception('Table [' . $this->table . '] not found.');
         }

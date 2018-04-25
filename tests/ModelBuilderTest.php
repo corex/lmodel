@@ -129,7 +129,7 @@ class ModelBuilderTest extends TestCase
         $this->createTable();
         $modelBuilder = new ModelBuilder($this->connection, $this->table);
         $fillableAttributes = $this->callPrivateMethod('getFillableAttributes', $modelBuilder);
-        $this->assertEquals(['id', 'firstname', 'lastname'], $fillableAttributes);
+        $this->assertEquals(['id', 'firstname', 'lastname', 'status'], $fillableAttributes);
     }
 
     /**
@@ -141,7 +141,7 @@ class ModelBuilderTest extends TestCase
         $modelBuilder = new ModelBuilder($this->connection, $this->table);
         $modelBuilder->setGuardedAttributes(['id']);
         $fillableAttributes = $this->callPrivateMethod('getFillableAttributes', $modelBuilder);
-        $this->assertEquals(['firstname', 'lastname'], $fillableAttributes);
+        $this->assertEquals(['firstname', 'lastname', 'status'], $fillableAttributes);
     }
 
     /**
@@ -192,12 +192,12 @@ class ModelBuilderTest extends TestCase
         $tokens = $this->callPrivateMethod('getTokens', $modelBuilder);
         $this->assertEquals($check . '\\' . ucfirst($this->connection), $tokens['namespace']);
         $this->assertEquals([\CoRex\Laravel\Model\Model::class], $tokens['uses']);
-        $this->assertEquals(3, count($tokens['phpdocProperties']));
+        $this->assertEquals(4, count($tokens['phpdocProperties']));
         $this->assertEquals(ucfirst($this->table), $tokens['Class']);
         $this->assertEquals('Model', $tokens['extends']);
         $this->assertEquals($this->connection, $tokens['connection']);
         $this->assertEquals($this->table, $tokens['table']);
-        $this->assertEquals(3, count($tokens['fillable']));
+        $this->assertEquals(4, count($tokens['fillable']));
         $this->assertEquals($guardedAttributes, $tokens['guarded']);
         $keys = array_keys($tokens['constants']);
         $this->assertEquals('C' . strtoupper($dataCheck1), $keys[0]);
