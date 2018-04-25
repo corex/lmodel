@@ -11,6 +11,8 @@ class MakeModelsCommandTest extends TestCase
 
     /**
      * Test handle.
+     *
+     * @throws ReflectionException
      */
     public function testHandle()
     {

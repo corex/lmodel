@@ -11,6 +11,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test constructor connection not found.
+     * @throws Exception
      */
     public function testConstructorConnectionNotFound()
     {
@@ -25,6 +26,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test constructor table not found.
+     * @throws Exception
      */
     public function testConstructorTableNotFound()
     {
@@ -36,6 +38,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test constructor table found.
+     * @throws Exception
      */
     public function testConstructorTableFound()
     {
@@ -58,6 +61,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get model filename not addConnection.
+     * @throws Exception
      */
     public function testGetModelFilenameNotAddConnection()
     {
@@ -80,6 +84,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get model filename addConnection.
+     * @throws Exception
      */
     public function testGetModelFilenameAddConnection()
     {
@@ -103,6 +108,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test set guarded attributes.
+     * @throws Exception
      */
     public function testSetGuardedAttributes()
     {
@@ -123,6 +129,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get fillable attributes all.
+     * @throws Exception
      */
     public function testGetFillableAttributesAll()
     {
@@ -134,6 +141,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get fillable attributes guarded.
+     * @throws Exception
      */
     public function testGetFillableAttributesGuarded()
     {
@@ -146,6 +154,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get tokens.
+     * @throws Exception
      */
     public function testGetTokens()
     {
@@ -208,6 +217,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get doc properties.
+     * @throws Exception
      */
     public function testGetDocProperties()
     {
@@ -221,6 +231,8 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get attributes.
+     *
+     * @throws Exception
      */
     public function testGetAttributes()
     {
@@ -230,6 +242,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get indent.
+     * @throws Exception
      */
     public function testGetIndent()
     {
@@ -251,6 +264,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get line length.
+     * @throws Exception
      */
     public function testGetLinelength()
     {
@@ -272,6 +286,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test remove tag lines.
+     * @throws Exception
      */
     public function testRemoveTagLines()
     {
@@ -285,6 +300,7 @@ class ModelBuilderTest extends TestCase
 
     /**
      * Test get constants.
+     * @throws Exception
      */
     public function testGetConstants()
     {
@@ -338,6 +354,7 @@ class ModelBuilderTest extends TestCase
      * @param string $name
      * @param object $object
      * @return mixed
+     * @throws ReflectionException
      */
     private function getProperty($name, $object)
     {
@@ -353,6 +370,7 @@ class ModelBuilderTest extends TestCase
      * @param string $name
      * @param object $object
      * @return mixed
+     * @throws ReflectionException
      */
     private function callPrivateMethod($name, $object)
     {
