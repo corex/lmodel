@@ -1,7 +1,6 @@
-# CoRex Laravel Model
-Laravel Model (generator, constants, preserved lines, phpdoc).
+# Laravel Model Generator
 
-Auto-generate models with constants, preserved lines, phpdoc, etc. for Laravel 5.
+Model Generator for Laravel.
 
 **_Versioning for this package follows http://semver.org/. Backwards compatibility might break on upgrade to major versions._**
 
