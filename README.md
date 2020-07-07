@@ -94,18 +94,16 @@ class Status extends Model
 
 ## Why the package has been rewritten from scratch
 This project started as a help to a friend, but has since become a project
-used by many. Therefore, I have made the choice to rewrite the package from
-the ground up to enable code generation at all levels and to meet future
+used by many. Therefore, the choice was made to rewrite the package from
+the ground up, to enable code generation at all levels and to meet future
 challenges.
 
-This rewrite makes it possible to replace any part of code generation by
-either expanding a builder or implementing an interface.
+It will be possible to replace any part of code generation by either expanding
+a builder or implementing an interface.
 
 This rewrite contains changes that will break your code. The configuration
-has changed, but it should be easy to convert to the new version. To make it
-easy to change the configuration file, the config file is renamed to "lmodel.php".
+has changed, but it should be easy to convert to the new version. To config file
+ has been renamed to "lmodel.php" so it is easy to compare changes.
 
 It is no longer possible to specify guarded fields from the command line. However,
 it is possible to specify these in the configuration file.
-
-The configuration has changed, but it should be easy to update previous versions.
