@@ -98,7 +98,7 @@ used by many. Therefore, the choice was made to rewrite the package from
 the ground up, to enable code generation at all levels and to meet future
 challenges.
 
-It is be possible to replace any part of code generation by either expanding
+It is possible to replace any part of code generation by either expanding
 a builder or implementing an interface.
 
 This rewrite contains changes that will break your code. The configuration
