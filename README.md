@@ -102,7 +102,7 @@ It will be possible to replace any part of code generation by either expanding
 a builder or implementing an interface.
 
 This rewrite contains changes that will break your code. The configuration
-has changed, but it should be easy to convert to the new version. To config file
+has changed, but it should be easy to convert to the new version. The config file
  has been renamed to "lmodel.php" so it is easy to compare changes.
 
 It is no longer possible to specify guarded fields from the command line. However,
