@@ -6,10 +6,10 @@
 
 **Note that from version 1 to version 2, the package has been rewritten from scratch and there are breaking changes.**
 
-Laravel has a really nice approach to new databases, but requires more work
-to manage if you have existing databases. It is, of course, possible to write migrations to
-existing databases, but these databases are often maintained externally. A model
-generator can go a long way to help.
+Laravel has a really nice approach to new databases, but requires more work if you
+have existing databases. It is, of course, possible to handle existing databases,
+but these databases are often maintained externally. A model generator
+can go a long way to help.
 
 Connects to your existing database and auto-generates models based on existing schema.
 - Support for "declare(strict_types=1);" at top of file.
