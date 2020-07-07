@@ -3,3 +3,4 @@ vendor/
 temp/
 composer.lock
 database.php
+/log

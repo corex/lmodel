@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CoRex\Laravel\Model\Commands;
 
-use CoRex\Laravel\Model\Config;
-use CoRex\Laravel\Model\ModelBuilder;
+use CoRex\Laravel\Model\Helpers\ModelsBuilder;
+use CoRex\Laravel\Model\Interfaces\ConfigInterface;
+use CoRex\Laravel\Model\Interfaces\DatabaseInterface;
+use CoRex\Laravel\Model\Interfaces\ModelsBuilderInterface;
+use CoRex\Laravel\Model\Interfaces\WriterInterface;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 class MakeModelsCommand extends Command
 {
@@ -16,116 +19,58 @@ class MakeModelsCommand extends Command
      * @var string
      */
     protected $signature = 'make:models
-        {connection : Name of connection (see config/database.php).}
-        {tables : Comma separated table names to generate. Specify "." to generate all.}
-        {--guarded= : Comma separated list of guarded fields.}';
+        {connection : Name of connection (Specify "." for default)}
+        {tables : Comma separated table names to generate (Specify "." to generate all)}
+        {--dryrun : Do not write model(s), but output content of model(s)}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create model(s) from existing schema';
+    protected $description = 'Create/update model(s) from existing schema';
+
+    /** @var ConfigInterface */
+    private $config;
+
+    /** @var WriterInterface */
+    private $writer;
+
+    /** @var DatabaseInterface */
+    private $database;
+
+    /**
+     * MakeModelsCommand.
+     *
+     * @param ConfigInterface $config
+     * @param WriterInterface $writer
+     * @param DatabaseInterface $database
+     */
+    public function __construct(ConfigInterface $config, WriterInterface $writer, DatabaseInterface $database)
+    {
+        parent::__construct();
+
+        $this->config = $config;
+        $this->writer = $writer;
+        $this->database = $database;
+    }
 
     /**
      * Execute the console command.
-     *
-     * @throws \Exception
      */
-    public function handle()
+    public function handle(): void
     {
-        Config::validate();
-        $connection = $this->getConnection();
-        $tables = $this->getTables($connection);
-        $guardedAttributes = $this->getGuardedAttributes();
+        $dryrun = $this->option('dryrun');
+        $application = $this->getLaravel();
 
-        // Make models.
-        if (count($tables) > 0) {
-            foreach ($tables as $table) {
-                $modelBuilder = new ModelBuilder($connection, $table);
-                $modelBuilder->setGuardedAttributes($guardedAttributes);
-                $filename = $modelBuilder->getModelFilename();
-                $content = $modelBuilder->generateModel();
-                $this->writeFile($filename, $content);
-                $this->info('Model [' . $filename . '] created.');
-            }
-        }
-    }
-
-    /**
-     * Write file.
-     *
-     * @param string $filename
-     * @param string $content
-     */
-    private function writeFile($filename, $content)
-    {
-        $permissions = fileperms(base_path('app'));
-        $path = dirname($filename);
-        if (!File::isDirectory($path)) {
-            File::makeDirectory($path, $permissions, true);
-        }
-        File::put($filename, $content);
-    }
-
-    /**
-     * Get connection.
-     *
-     * @return array|string
-     * @throws \Exception
-     */
-    private function getConnection()
-    {
-        $connections = array_keys(config('database.connections'));
-        $connection = $this->argument('connection');
-        if ($connection == '.') {
-            $connection = config('database.default');
-        }
-        if (!in_array($connection, $connections)) {
-            $message = 'Connection ' . $connection . ' not found.';
-            $message .= ' Available connections: ' . implode(', ', $connections) . '.';
-            throw new \Exception($message);
-        }
-        return $connection;
-    }
-
-    /**
-     * Get tables.
-     *
-     * @param string $connection
-     * @return array
-     * @throws \Exception
-     */
-    private function getTables($connection)
-    {
-        $existingTables = DB::connection($connection)->getDoctrineSchemaManager()->listTableNames();
-        $tables = $this->argument('tables');
-        if ($tables != '.') {
-            $tables = explode(',', $tables);
-            if (count($tables) > 0) {
-                foreach ($tables as $table) {
-                    if (!in_array($table, $existingTables)) {
-                        throw new \Exception('Table ' . $table . ' not found.');
-                    }
-                }
-            }
-        } else {
-            $tables = $existingTables;
-        }
-        return $tables;
-    }
-
-    /**
-     * Get guarded attributes.
-     *
-     * @return array
-     */
-    private function getGuardedAttributes()
-    {
-        $guardedAttributes = $this->option('guarded');
-        if ($guardedAttributes !== null && $guardedAttributes != '') {
-            return str_replace(' ', '', explode(',', $guardedAttributes));
-        }
-        return [];
+        // Setup and execute models builder.
+        $application->bindIf(ModelsBuilderInterface::class, ModelsBuilder::class);
+        $modelsBulder = $application->make(ModelsBuilderInterface::class);
+        $modelsBulder->setConfig($this->config);
+        $modelsBulder->setWriter($this->writer);
+        $modelsBulder->setDatabase($this->database);
+        $modelsBulder->setApplication($application);
+        $modelsBulder->setOutput($this->getOutput());
+        $modelsBulder->execute($this->arguments(), $dryrun);
     }
 }
