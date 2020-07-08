@@ -126,9 +126,9 @@ class ModelBuilder implements ModelBuilderInterface
             $this->application->make(ClassExtendsBuilder::class),
             $this->application->make(StatementGroupStartBuilder::class),
             $this->application->make(TraitBuilder::class),
-            $this->application->make(ConstantsBuilder::class),
-            $this->application->make(TimestampsBuilder::class),
             $this->application->make(DatabaseInformationBuilder::class),
+            $this->application->make(TimestampsBuilder::class),
+            $this->application->make(ConstantsBuilder::class),
             $this->application->make(PreservedLinesBuilder::class),
             $this->application->make(StatementGroupEndBuilder::class),
         ];
