@@ -29,4 +29,5 @@ class Constants
     ];
     public const ELOQUENT_CREATED_AT = 'created_at';
     public const ELOQUENT_UPDATED_AT = 'updated_at';
+    public const CHARACTERS = ['-', '.', ',', ';', ':', ' ', '?', '\'', '"', '#', '%', '&', '/', '\\', '(', ')'];
 }

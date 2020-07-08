@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CoRex\Laravel\Model\Builders;
 
 use CoRex\Laravel\Model\Base\BaseBuilder;
+use CoRex\Laravel\Model\Constants;
 use CoRex\Laravel\Model\Exceptions\BuilderException;
 use CoRex\Laravel\Model\Helpers\Definitions\ConstantDefinition;
 
@@ -115,7 +116,7 @@ class ConstantsBuilder extends BaseBuilder
     {
         $data = mb_strtoupper($data);
         $data = str_replace(
-            ['-', '.', ',', ';', ':', ' ', '?', '\'', '"', '#', '%', '&', '/', '\\', '(', ')'],
+            Constants::CHARACTERS,
             '_',
             $data
         );
