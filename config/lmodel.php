@@ -42,7 +42,7 @@ return [
 
     // Builders.
     'builders' => [
-        // '{exsting-builder}' => '{new-builder}',
+        // '{new-builder}' => '{exsting-builder}'
     ],
 
     // Ignored tables.

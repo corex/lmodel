@@ -4,26 +4,24 @@
 ![Build Status](https://travis-ci.org/corex/lmodel.svg?branch=master)
 ![codecov](https://codecov.io/gh/corex/lmodel/branch/master/graph/badge.svg)
 
-**Note that from version 1 to version 2, the package has been rewritten from scratch and there are breaking changes.**
+**Note that from version 1 to version 2 there are breaking changes as the package has been rewritten from scratch.**
 
-Laravel has a really nice approach to new databases, but requires more work if you
-have existing databases. It is, of course, possible to handle existing databases,
-but these databases are often maintained externally. A model generator
-can go a long way to help.
+Laravel has a really nice approach to new databases, but requires more work if
+you have existing databases. Of course, it is possible to manage existing
+databases, but these databases are often maintained externally. A model
+generator can go a long way to help.
 
-Connects to your existing database and auto-generates models based on existing schema.
-- Support for "declare(strict_types=1);" at top of file.
+Connect to your existing database and generate models based on existing schema.
+- Support for "declare(strict_types=1);".
 - Support for multiple connections.
 - Support for auto-completion via phpdoc properties.
-- Support for custom methods (preserved lines).
+- Support for custom code (preserved lines).
 - Support for fillable fields.
 - Support for guarded fields.
 - Support for custom "extends".
 - Support for building multiple groups of constants in model.
 - Support for custom "indent".
-- Support for preserving $timestamps value.
-- Support for column of type "enum" (mapped to string).
-- Support for Doctrine type mapping.
+- Support for Doctrine type mapping ("enum" mapped to "string", ...).
 - Support for PhpDoc type mapping.
 - Support for ignored tables.
 - Support for showing changes before writing models (--dry-run).
@@ -41,6 +39,40 @@ To register it and make sure you have this option available for development only
 if ($this->app->environment('local')) {
     $this->app->register(\CoRex\Laravel\Model\ModelServiceProvider::class);
 }
+```
+
+
+## Configuration
+Each setting is explained in copied config-file ("{root}/config/lmodel.php").
+
+
+## Replacing a builder
+Following is a list of builders that can be replaced by extending existing
+builder, extending BaseBuilder or implementing BuilderInterface. It you plan
+to write your own builder, it is strongly recommended to extend BaseBuilder
+since it already contains "basic plumbing".
+
+Existing builders (executed in this order).
+- DeclareStrictBuilder
+- NamespaceBuilder
+- UsesBuilder
+- PhpDocBuilder
+- ClassExtendsBuilder
+- StatementGroupStartBuilder
+- TraitBuilder
+- DatabaseInformationBuilder
+- TimestampsBuilder
+- ConstantsBuilder
+- PreservedLinesBuilder
+- StatementGroupEndBuilder
+
+Example of replacing "DeclareStrictBuilder".
+```php
+    // Builders.
+    'builders' => [
+        // '{new-builder}' => '{exsting-builder}'
+        MyDeclareStrictBuilder::class => DeclareStrictBuilder::class
+    ],
 ```
 
 
@@ -64,18 +96,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Status extends Model
 {
+    // Database.
+    protected $connection = 'main';
+    protected $table = 'status';
+
+    // Timestamps.
+    public $timestamps = false;
+
     // Constants.
     public const CONSTANT1 = 1;
     public const CONSTANT2 = 2;
     public const CONSTANT3 = 3;
     public const CONSTANT4 = 4;
-
-    // Timestamps.
-    public $timestamps = false;
-
-    // Database.
-    protected $connection = 'main';
-    protected $table = 'status';
 
     /* ---- Everything after this line will be preserved. ---- */
 
@@ -102,8 +134,8 @@ It is possible to replace any part of code generation by either expanding
 a builder or implementing an interface.
 
 This rewrite contains changes that will break your code. The configuration
-has changed, but it should be easy to convert to the new version. The config file
+has changed, but it should be easy to convert to new version (v2). The config file
  has been renamed to "lmodel.php" so it is easy to compare changes.
 
 It is no longer possible to specify guarded fields from the command line. However,
-it is possible to specify these in the configuration file.
+it is possible to specify guarded fields in configuration file.

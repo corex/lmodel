@@ -172,7 +172,7 @@ class ModelsBuilder implements ModelsBuilderInterface
     private function registerCustomBuilders(): void
     {
         $builderMappings = $this->config->getBuilderMappings();
-        foreach ($builderMappings as $existingBuilder => $newBuilder) {
+        foreach ($builderMappings as $newBuilder => $existingBuilder) {
             $this->application->bindIf($existingBuilder, $newBuilder);
         }
     }

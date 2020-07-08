@@ -242,7 +242,7 @@ class ConfigTest extends TestCase
         // Assert standard.
         $this->assertSame(
             [
-                DeclareStrictBuilder::class => FakeDeclareStrictBuilder::class
+                FakeDeclareStrictBuilder::class => DeclareStrictBuilder::class
             ],
             $this->config()->getBuilderMappings()
         );

@@ -47,8 +47,8 @@ return [
 
     // Builders.
     'builders' => [
-        // '{exsting-builder}' => '{new-builder class implementing builder interface}',
-        DeclareStrictBuilder::class => FakeDeclareStrictBuilder::class
+        // '{new-builder}' => '{exsting-builder}'
+        FakeDeclareStrictBuilder::class => DeclareStrictBuilder::class
     ],
 
     // Ignored tables.
