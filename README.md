@@ -26,7 +26,8 @@ Connect to your existing database and generate models based on existing schema.
 - Support for ignored tables.
 - Support for showing changes before writing models (--dry-run).
 
-**Note: Generating a model that already exists will overwrite existing model, but every line below "preserve" identifier, will be preserved.**
+**Note: Generating a model that already exists will overwrite existing model,
+but every line below "preserve" identifier, will be preserved. Uses and Traits will also be preserved.**
 
 
 ## Installation
@@ -78,6 +79,18 @@ Example of replacing "DeclareStrictBuilder".
 
 ## Examples
 
+### Generate model
+Generate model (only show/dryrun) for my_table on default connection
+```bash
+php artisan make:models . my_table --dryrun
+```
+
+Generate all models on default connection.
+```bash
+php artisan make:models . .
+```
+
+### Generated model
 Generated model from table status with config.
 
 ```php
