@@ -4,12 +4,8 @@
 ![Build Status](https://travis-ci.org/corex/lmodel.svg?branch=master)
 ![codecov](https://codecov.io/gh/corex/lmodel/branch/master/graph/badge.svg)
 
-**Note that from version 1 to version 2 there are breaking changes as the package has been rewritten from scratch.**
+**Note: Breaking changes from V1 to V2.**
 
-Laravel has a really nice approach to new databases, but requires more work if
-you have existing databases. Of course, it is possible to manage existing
-databases, but these databases are often maintained externally. A model
-generator can go a long way to help.
 
 Connect to your existing database and generate models based on existing schema.
 - Support for "declare(strict_types=1);".
@@ -24,18 +20,24 @@ Connect to your existing database and generate models based on existing schema.
 - Support for Doctrine type mapping ("enum" mapped to "string", ...).
 - Support for PhpDoc type mapping.
 - Support for ignored tables.
-- Support for showing changes before writing models (--dry-run).
+- Support for showing generated models before writing (--dry-run).
+- Support for replacing builders.
 
-**Note: Generating a model that already exists will overwrite existing model,
-but every line below "preserve" identifier, will be preserved. Uses and Traits will also be preserved.**
+Note: Generating a model will always overwrite existing model, but every line
+below "preserve" identifier, will be preserved. Uses and Traits will also be preserved.
+
+**Changes from V1 to V2**
+- **Configuration has been changed/moved to ease re-generation of models.**
+- **It is no longer possible to specify guarded fields from command-line.**
 
 
 ## Installation
 Run ```"composer require corex/lmodel --dev"```.
 
-Copy "{root}/vendor/corex/lmodel/config/lmodel.php" from package to "{root}/config/lmodel.php" and modify it to suit your needs.
+Copy ```{root}/vendor/corex/lmodel/config/lmodel.php``` from package to
+```{root}/config/lmodel.php``` and modify it to suit your needs.
 
-To register it and make sure you have this option available for development only, add following code to AppServiceProviders@register method.
+To register, and to make sure you have this option available for local mode only, add following code to AppServiceProviders@register method.
 ```php
 if ($this->app->environment('local')) {
     $this->app->register(\CoRex\Laravel\Model\ModelServiceProvider::class);
@@ -80,7 +82,7 @@ Example of replacing "DeclareStrictBuilder".
 ## Examples
 
 ### Generate model
-Generate model (only show/dryrun) for my_table on default connection
+Generate model (only show / dryrun) for my_table on default connection.
 ```bash
 php artisan make:models . my_table --dryrun
 ```
@@ -91,7 +93,7 @@ php artisan make:models . .
 ```
 
 ### Generated model
-Generated model from table status with config.
+Generated model from table status on connection 'main'.
 
 ```php
 <?php
@@ -135,20 +137,3 @@ class Status extends Model
     }
 }
 ```
-
-
-## Why the package has been rewritten from scratch
-This project started as a help to a friend, but has since become a project
-used by many. Therefore, the choice was made to rewrite the package from
-the ground up, to enable code generation at all levels and to meet future
-challenges.
-
-It is possible to replace almost any part of code generation by either expanding
-a builder or implementing an interface.
-
-This rewrite contains changes that will break your code. The configuration
-has changed, but it should be easy to convert to new version (v2). The config file
- has been renamed to "lmodel.php" so it is easy to compare changes.
-
-It is no longer possible to specify guarded fields from the command line. However,
-it is possible to specify guarded fields in configuration file.
