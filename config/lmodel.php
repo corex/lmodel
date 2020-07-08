@@ -76,7 +76,7 @@ return [
                 // Constants (supports both [] and [[]]).
                 'constants' => [
                     [
-                        // Title of constans.
+                        // Title of constant.
                         'title' => '{title}',
 
                         // Column containing name of constant.

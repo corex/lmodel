@@ -83,47 +83,48 @@ return [
                 // Constants (supports both [] and [[]]).
                 'constants' => [
                     [
+                        // Title of constant.
                         'title' => 'Constants for numbers.',
+
+                        // Column containing name of constant.
                         'name' => 'code',
+
+                        // Column containing value of constant.
                         'value' => 'number',
+
+                        // Prefix of constant name.
                         'prefix' => 'NUM',
+
+                        // Suffix of constant name.
                         'suffix' => 'S',
+
+                        // Values to replace in constant name.
                         'replace' => [
                             'SE' => '>>',
                             'ON' => '<<'
                         ]
                     ],
                     [
+                        // Title of constant.
                         'title' => 'Constants for strings.',
+
+                        // Column containing name of constant.
                         'name' => 'code',
+
+                        // Column containing value of constant.
                         'value' => 'string',
+
+                        // Prefix of constant name.
                         'prefix' => 'STR',
+
+                        // Suffix of constant name.
                         'suffix' => 'S',
+
+                        // Values to replace in constant name.
                         'replace' => [
                             'SE' => '>>',
                             'ON' => '<<'
                         ]
-                    ]
-                ],
-
-                // Constants.
-                '-constants' => [
-
-                    // Column containing name of constant.
-                    'name' => '{name}',
-
-                    // Column containing value of constant.
-                    'value' => '{id}',
-
-                    // Prefix of constant name.
-                    'prefix' => '{prefix}',
-
-                    // Suffix of constant name.
-                    'suffix' => '{suffix}',
-
-                    // Values to replace in constant name.
-                    'replace' => [
-                        '{from}}' => '{to}',
                     ]
                 ]
             ]
