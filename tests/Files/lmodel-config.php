@@ -40,7 +40,7 @@ return [
         'test-type' => 'string'
     ],
 
-    // PhpDoc type mapping.
+    // PhpDoc type mappings.
     'phpdoc' => [
         // '{database-type}' => '{php-var-type}'
     ],

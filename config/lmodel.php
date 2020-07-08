@@ -35,7 +35,7 @@ return [
         // 'database-type' => 'doctrine-type'
     ],
 
-    // PhpDoc type mapping.
+    // PhpDoc type mappings.
     'phpdoc' => [
         // '{database-type}' => '{php-var-type}'
     ],
