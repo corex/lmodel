@@ -26,10 +26,6 @@ Connect to your existing database and generate models based on existing schema.
 Note: Generating a model will always overwrite existing model, but every line
 below "preserve" identifier, will be preserved. Uses and Traits will also be preserved.
 
-**Changes from V1 to V2**
-- **Configuration has been changed/moved to ease re-generation of models.**
-- **It is no longer possible to specify guarded fields from command-line.**
-
 
 ## Installation
 Run ```"composer require corex/lmodel --dev"```.
