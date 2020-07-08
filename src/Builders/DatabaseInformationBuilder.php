@@ -71,7 +71,7 @@ class DatabaseInformationBuilder extends BaseBuilder
      * @param string[] $columnNames
      * @return string[]
      */
-    private function buildFields(string $signature, array $columnNames): array
+    protected function buildFields(string $signature, array $columnNames): array
     {
         // Create first line to build on.
         $lines = [$this->indent(1) . 'protected $' . $signature . ' = ['];
@@ -116,7 +116,7 @@ class DatabaseInformationBuilder extends BaseBuilder
      * @param string[] $columnNames
      * @param string[] $schemaColumnNames
      */
-    private function filterOutColumnsNotInSchema(array &$columnNames, array $schemaColumnNames): void
+    protected function filterOutColumnsNotInSchema(array &$columnNames, array $schemaColumnNames): void
     {
         foreach ($columnNames as $index => $columnName) {
             if (!in_array($columnName, $schemaColumnNames, true)) {

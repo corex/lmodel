@@ -38,7 +38,7 @@ class ConstantsBuilder extends BaseBuilder
      * @return string[]
      * @throws BuilderException
      */
-    private function buildConstants(ConstantDefinition $definition): array
+    protected function buildConstants(ConstantDefinition $definition): array
     {
         $title = $definition->getTitle();
         $nameColumn = $definition->getNameColumn();
@@ -88,7 +88,7 @@ class ConstantsBuilder extends BaseBuilder
      * @param object[] $rows
      * @return bool
      */
-    private function ifStringInRows(array $rows): bool
+    protected function ifStringInRows(array $rows): bool
     {
         $stringInRows = false;
         if (count($rows) === 0) {
@@ -111,7 +111,7 @@ class ConstantsBuilder extends BaseBuilder
      * @param mixed[] $replaces
      * @return mixed
      */
-    private function replaceCharacters(string $data, array $replaces)
+    protected function replaceCharacters(string $data, array $replaces)
     {
         $data = mb_strtoupper($data);
         $data = str_replace(

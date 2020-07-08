@@ -51,7 +51,7 @@ class PhpDocBuilder extends BaseBuilder
      * @param ColumnInterface $column
      * @return string
      */
-    private function createPhpdocLine(ColumnInterface $column): string
+    protected function createPhpdocLine(ColumnInterface $column): string
     {
         $phpdocLine = ' * @{phpdocType} {type} ${name} {comment}';
 
@@ -77,7 +77,7 @@ class PhpDocBuilder extends BaseBuilder
      * @param string $columnType
      * @return string|null
      */
-    private function convertColumnType(string $columnType): ?string
+    protected function convertColumnType(string $columnType): ?string
     {
         if (array_key_exists($columnType, $this->columnTypeMappings)) {
             $columnType = $this->columnTypeMappings[$columnType];
