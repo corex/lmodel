@@ -73,6 +73,9 @@ return [
                 // List of guarded columns.
                 'guarded' => [],
 
+                // List of readonly columns (PhpDoc @property-read).
+                'readonly' => [],
+
                 // Constants (supports both [] and [[]]).
                 'constants' => [
                     [

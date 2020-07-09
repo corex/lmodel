@@ -20,7 +20,7 @@ class PhpDocBuilderTest extends TestBase
             [
                 '/**',
                 ' * @property int $id',
-                ' * @property string $code',
+                ' * @property-read string $code',
                 ' * @property int $number',
                 ' * @property string $string',
                 ' * @property string $status',

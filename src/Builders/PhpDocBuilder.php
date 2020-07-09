@@ -6,12 +6,16 @@ namespace CoRex\Laravel\Model\Builders;
 
 use CoRex\Laravel\Model\Base\BaseBuilder;
 use CoRex\Laravel\Model\Constants;
+use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 use CoRex\Laravel\Model\Interfaces\ColumnInterface;
 
 class PhpDocBuilder extends BaseBuilder
 {
     /** @var mixed[] */
     private $columnTypeMappings;
+
+    /** @var TableDefinition */
+    private $tableDefinition;
 
     /**
      * Build.
@@ -23,6 +27,7 @@ class PhpDocBuilder extends BaseBuilder
         $config = $this->modelBuilder->getConfig();
         $columns = $this->modelBuilder->getDatabase()->getColumns($this->table);
         $this->columnTypeMappings = $config->getPhpDocMappings();
+        $this->tableDefinition = $this->config->getTableDefinition($this->connection, $this->table);
 
         // Header.
         $phpdocLines = [
@@ -53,20 +58,30 @@ class PhpDocBuilder extends BaseBuilder
      */
     protected function createPhpdocLine(ColumnInterface $column): string
     {
+        $replace = [
+            // Phpdoc type.
+            'phpdocType' => 'property',
+
+            // Handle type.
+            'type' => $this->convertColumnType($column->getType()),
+
+            // Handle name.
+            'name' => $column->getName(),
+
+            // Handle comment.
+            'comment' => (string)$column->getComment()
+        ];
+
+        // Handle readonly column.
+        if (in_array($column->getName(), $this->tableDefinition->getReadonlyColumns(), true)) {
+            $replace['phpdocType'] = 'property-read';
+        }
+
+        // Prepare PhpDoc line.
         $phpdocLine = ' * @{phpdocType} {type} ${name} {comment}';
-
-        // Phpdoc type.
-        $phpdocLine = str_replace('{phpdocType}', 'property', $phpdocLine);
-
-        // Handle type.
-        $columnType = $this->convertColumnType($column->getType());
-        $phpdocLine = str_replace('{type}', $columnType, $phpdocLine);
-
-        // Handle name.
-        $phpdocLine = str_replace('{name}', $column->getName(), $phpdocLine);
-
-        // Handle comment.
-        $phpdocLine = str_replace('{comment}', (string)$column->getComment(), $phpdocLine);
+        foreach ($replace as $token => $value) {
+            $phpdocLine = str_replace('{' . $token . '}', $value, $phpdocLine);
+        }
 
         return rtrim($phpdocLine);
     }

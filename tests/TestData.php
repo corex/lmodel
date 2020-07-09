@@ -75,6 +75,7 @@ class TestData
                 'date_format' => 'U',
                 'fillable' => ['code', 'number', 'string'],
                 'guarded' => ['code', 'number', 'string'],
+                'readonly' => ['code']
             ],
             self::getConstantsData()
         );

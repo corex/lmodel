@@ -72,6 +72,16 @@ class TableDefinition
     }
 
     /**
+     * Get readonly columns.
+     *
+     * @return string[]
+     */
+    public function getReadonlyColumns(): array
+    {
+        return $this->get('readonly', []);
+    }
+
+    /**
      * Get constant definitions.
      *
      * @return ConstantDefinition[]

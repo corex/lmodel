@@ -73,6 +73,14 @@ class TableDefinitionTest extends TestCase
     }
 
     /**
+     * Test get readonly columns.
+     */
+    public function testGetReadonlyColumns(): void
+    {
+        $this->assertSame($this->data['readonly'], $this->definition->getReadonlyColumns());
+    }
+
+    /**
      * Test get constant definitions.
      *
      * @throws ReflectionException
