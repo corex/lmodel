@@ -16,6 +16,19 @@ use Illuminate\Support\ServiceProvider;
 class ModelServiceProvider extends ServiceProvider
 {
     /**
+     * Boot.
+     */
+    public function boot(): void
+    {
+        $this->publishes(
+            [
+                dirname(__DIR__) . '/config/lmodel.php' => config_path('lmodel.php')
+            ],
+            'lmodel-config'
+        );
+    }
+
+    /**
      * Register the application services.
      */
     public function register(): void

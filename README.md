@@ -30,8 +30,9 @@ below "preserve" identifier, will be preserved. Uses and Traits will also be pre
 ## Installation
 Run ```"composer require corex/lmodel --dev"```.
 
-Copy ```{root}/vendor/corex/lmodel/config/lmodel.php``` from package to
-```{root}/config/lmodel.php``` and modify it to suit your needs.
+Run ```"php artisan vendor:publish --tag=lmodel-config"```.
+
+Modify ```{root}/config/lmodel.php``` to suit your needs.
 
 To register, and to make sure you have this option available for local mode only, add following code to AppServiceProviders@register method.
 ```php
@@ -39,10 +40,6 @@ if ($this->app->environment('local')) {
     $this->app->register(\CoRex\Laravel\Model\ModelServiceProvider::class);
 }
 ```
-
-
-## Configuration
-Each setting is explained in copied config-file ("{root}/config/lmodel.php").
 
 
 ## Replacing a builder
