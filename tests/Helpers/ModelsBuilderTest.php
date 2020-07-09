@@ -32,7 +32,7 @@ class ModelsBuilderTest extends TestBase
      */
     public function testSetConfig(): void
     {
-        $config = new Config([]);
+        $config = new Config(['unknown' => 'unknown']);
         $this->assertNull(Obj::getProperty('config', $this->modelsBuilder));
         $this->modelsBuilder->setConfig($config);
         $this->assertSame($config, Obj::getProperty('config', $this->modelsBuilder));
@@ -110,10 +110,13 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->modelsBuilder->setOutput($outputStyle);
 
-        $this->modelsBuilder->execute([
-            'connection' => 'testbench',
-            'tables' => '.'
-        ], false);
+        $this->modelsBuilder->execute(
+            [
+                'connection' => 'testbench',
+                'tables' => '.'
+            ],
+            false
+        );
 
         $output = $bufferedOutput->fetch();
         $this->assertStringContainsString('Create/update model(s) from existing schema', $output);
@@ -142,10 +145,13 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->modelsBuilder->setOutput($outputStyle);
 
-        $this->modelsBuilder->execute([
-            'connection' => 'testbench',
-            'tables' => '.'
-        ], true);
+        $this->modelsBuilder->execute(
+            [
+                'connection' => 'testbench',
+                'tables' => '.'
+            ],
+            true
+        );
 
         $output = $bufferedOutput->fetch();
         $this->assertStringContainsString('declare(strict_types=1)', $output);
@@ -189,10 +195,13 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->modelsBuilder->setOutput($outputStyle);
 
-        $this->modelsBuilder->execute([
-            'connection' => 'testbench',
-            'tables' => '.'
-        ], true);
+        $this->modelsBuilder->execute(
+            [
+                'connection' => 'testbench',
+                'tables' => '.'
+            ],
+            true
+        );
 
         $this->assertStringContainsString('testdeclare', $bufferedOutput->fetch());
     }
@@ -208,10 +217,14 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->assertNull(Obj::getProperty('output', $this->modelsBuilder));
         $this->modelsBuilder->setOutput($outputStyle);
-        Obj::callMethod('output', $this->modelsBuilder, [
-            'output' => 'test',
-            'style' => 'info'
-        ]);
+        Obj::callMethod(
+            'output',
+            $this->modelsBuilder,
+            [
+                'output' => 'test',
+                'style' => 'info'
+            ]
+        );
         $this->assertSame("test\n", $bufferedOutput->fetch());
     }
 
@@ -223,11 +236,15 @@ class ModelsBuilderTest extends TestBase
     public function testSetConnection(): void
     {
         $this->modelsBuilder->setApplication($this->application);
-        Obj::callMethod('setConnection', $this->modelsBuilder, [
-            'arguments' => [
-                'connection' => 'testbench'
+        Obj::callMethod(
+            'setConnection',
+            $this->modelsBuilder,
+            [
+                'arguments' => [
+                    'connection' => 'testbench'
+                ]
             ]
-        ]);
+        );
         $this->assertSame('testbench', Obj::getProperty('connection', $this->modelsBuilder));
     }
 
@@ -239,11 +256,15 @@ class ModelsBuilderTest extends TestBase
     public function testSetConnectionDefault(): void
     {
         $this->modelsBuilder->setApplication($this->application);
-        Obj::callMethod('setConnection', $this->modelsBuilder, [
-            'arguments' => [
-                'connection' => '.'
+        Obj::callMethod(
+            'setConnection',
+            $this->modelsBuilder,
+            [
+                'arguments' => [
+                    'connection' => '.'
+                ]
             ]
-        ]);
+        );
         $this->assertSame('testbench', Obj::getProperty('connection', $this->modelsBuilder));
     }
 
@@ -263,11 +284,15 @@ class ModelsBuilderTest extends TestBase
         $this->expectException(ConfigException::class);
         $this->expectExceptionMessage($message);
 
-        Obj::callMethod('setConnection', $this->modelsBuilder, [
-            'arguments' => [
-                'connection' => 'unknown'
+        Obj::callMethod(
+            'setConnection',
+            $this->modelsBuilder,
+            [
+                'arguments' => [
+                    'connection' => 'unknown'
+                ]
             ]
-        ]);
+        );
     }
 
     /**
@@ -285,11 +310,15 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->modelsBuilder->setOutput($outputStyle);
 
-        Obj::callMethod('setConnection', $this->modelsBuilder, [
-            'arguments' => [
-                'connection' => '.'
+        Obj::callMethod(
+            'setConnection',
+            $this->modelsBuilder,
+            [
+                'arguments' => [
+                    'connection' => '.'
+                ]
             ]
-        ]);
+        );
         Obj::callMethod(
             'setTables',
             $this->modelsBuilder,
@@ -321,11 +350,15 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->modelsBuilder->setOutput($outputStyle);
 
-        Obj::callMethod('setConnection', $this->modelsBuilder, [
-            'arguments' => [
-                'connection' => '.'
+        Obj::callMethod(
+            'setConnection',
+            $this->modelsBuilder,
+            [
+                'arguments' => [
+                    'connection' => '.'
+                ]
             ]
-        ]);
+        );
         Obj::callMethod(
             'setTables',
             $this->modelsBuilder,
@@ -357,11 +390,15 @@ class ModelsBuilderTest extends TestBase
         $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
         $this->modelsBuilder->setOutput($outputStyle);
 
-        Obj::callMethod('setConnection', $this->modelsBuilder, [
-            'arguments' => [
-                'connection' => '.'
+        Obj::callMethod(
+            'setConnection',
+            $this->modelsBuilder,
+            [
+                'arguments' => [
+                    'connection' => '.'
+                ]
             ]
-        ]);
+        );
 
         $this->expectException(ConfigException::class);
         $this->expectExceptionMessage('Table unknown not found.');

@@ -39,7 +39,7 @@ class ModelsBuilder implements ModelsBuilderInterface
     private $tables;
 
     /**
-     * Cet config.
+     * Set config.
      *
      * @param ConfigInterface $config
      */

@@ -10,7 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 interface ModelsBuilderInterface
 {
     /**
-     * Cet config.
+     * Set config.
      *
      * @param ConfigInterface $config
      */

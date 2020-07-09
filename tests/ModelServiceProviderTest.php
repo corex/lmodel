@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CoRex\Laravel\Model;
 
+use CoRex\Helpers\Obj;
 use CoRex\Laravel\Model\Interfaces\ConfigInterface;
 use CoRex\Laravel\Model\Interfaces\DatabaseInterface;
 use CoRex\Laravel\Model\Interfaces\WriterInterface;
@@ -13,6 +14,29 @@ use Orchestra\Testbench\TestCase;
 
 class ModelServiceProviderTest extends TestCase
 {
+    /**
+     * Test boot.
+     */
+    public function testBoot(): void
+    {
+        $serviceProvider = new ModelServiceProvider($this->app);
+        $serviceProvider->boot();
+
+        $publishes = Obj::getProperty('publishes', $serviceProvider, []);
+
+        $this->assertArrayHasKey(ModelServiceProvider::class, $publishes);
+
+        $rootPath = dirname(__DIR__);
+
+        $key = key($publishes[ModelServiceProvider::class]);
+        $key = str_replace($rootPath, '', $key);
+        $this->assertSame('/config/lmodel.php', $key);
+
+        $value = current($publishes[ModelServiceProvider::class]);
+        $value = str_replace($rootPath, '', $value);
+        $this->assertStringContainsString('/config/lmodel.php', $value);
+    }
+
     /**
      * Test register.
      */

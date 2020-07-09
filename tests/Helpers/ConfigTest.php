@@ -31,6 +31,18 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * Test validate no configuration.
+     *
+     * @throws ConfigException
+     */
+    public function testValidateNoConfiguration(): void
+    {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Configuration not specified.');
+        (new Config([]))->validate();
+    }
+
+    /**
      * Test validate success.
      *
      * @throws ConfigException

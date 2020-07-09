@@ -31,6 +31,11 @@ class Config implements ConfigInterface
      */
     public function validate(): bool
     {
+        // Validate that configuration has been specified.
+        if (count($this->data) === 0) {
+            throw new ConfigException('Configuration not specified.');
+        }
+
         // Validate declare strict.
         if ($this->get('declareStrict') === null) {
             $this->throwConfigException('[declareStrict] not set.');
