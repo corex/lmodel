@@ -34,5 +34,12 @@
         "psr-4": {
             "Tests\\CoRex\\Laravel\\Model\\": "tests/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CoRex\\Laravel\\Model\\ModelServiceProvider"
+            ]
+        }
     }
 }

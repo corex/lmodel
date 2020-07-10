@@ -30,16 +30,11 @@ below "preserve" identifier, will be preserved. Uses and Traits will also be pre
 ## Installation
 Run ```"composer require corex/lmodel --dev"```.
 
-Run ```"php artisan vendor:publish --tag=lmodel-config"```.
+The ModelServiceProvider is detected through Laravel's Package Discovery mechanism.
+
+Run ```"php artisan vendor:publish --tag=lmodel-config"``` to publish config file to ```{root}/config/lmodel.php```.
 
 Modify ```{root}/config/lmodel.php``` to suit your needs.
-
-To register, and to make sure you have this option available for local mode only, add following code to AppServiceProviders@register method.
-```php
-if ($this->app->environment('local')) {
-    $this->app->register(\CoRex\Laravel\Model\ModelServiceProvider::class);
-}
-```
 
 
 ## Replacing a builder
