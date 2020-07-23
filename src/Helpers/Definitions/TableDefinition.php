@@ -22,6 +22,16 @@ class TableDefinition
     }
 
     /**
+     * Is valid.
+     *
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return count($this->data) > 0;
+    }
+
+    /**
      * Get timestamps "created_at".
      *
      * @return string|null
@@ -89,11 +99,6 @@ class TableDefinition
     public function getConstantDefinitions(): array
     {
         $definitions = $this->get('constants', []);
-
-        // Convert to list.
-        if (array_key_exists('name', $definitions)) {
-            $definitions = [$definitions];
-        }
 
         // Convert list to list of objects.
         if (count($definitions) > 0) {

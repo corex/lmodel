@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CoRex\Laravel\Model\Base;
 
 use CoRex\Laravel\Model\Constants;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinition;
 use CoRex\Laravel\Model\Helpers\ModelBuilder;
 use CoRex\Laravel\Model\Interfaces\BuilderInterface;
 use CoRex\Laravel\Model\Interfaces\ConfigInterface;
@@ -23,6 +24,9 @@ abstract class BaseBuilder implements BuilderInterface
     /** @var string */
     protected $table;
 
+    /** @var PackageDefinition */
+    protected $packageDefinition;
+
     /**
      * Set model builder.
      *
@@ -34,6 +38,7 @@ abstract class BaseBuilder implements BuilderInterface
         $this->config = $modelBuilder->getConfig();
         $this->connection = $modelBuilder->getConnection();
         $this->table = $modelBuilder->getTable();
+        $this->packageDefinition = $modelBuilder->getPackageDefinition();
     }
 
     /**

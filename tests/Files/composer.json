@@ -27,9 +27,6 @@
         "orchestra/testbench": "^5.3"
     },
     "autoload": {
-        "psr-4": {
-            "CoRex\\Laravel\\Model\\": "src/"
-        }
     },
     "autoload-dev": {
         "psr-4": {

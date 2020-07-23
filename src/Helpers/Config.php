@@ -6,6 +6,7 @@ namespace CoRex\Laravel\Model\Helpers;
 
 use CoRex\Laravel\Model\Constants;
 use CoRex\Laravel\Model\Exceptions\ConfigException;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinitions;
 use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 use CoRex\Laravel\Model\Interfaces\ConfigInterface;
 
@@ -208,6 +209,18 @@ class Config implements ConfigInterface
     public function getIgnoredTables(string $connection): array
     {
         return (array)$this->get('ignored.' . $connection, []);
+    }
+
+    /**
+     * Get package definitions.
+     *
+     * @return PackageDefinitions
+     */
+    public function getPackageDefinitions(): PackageDefinitions
+    {
+        $data = $this->get('packages', []);
+
+        return new PackageDefinitions($data);
     }
 
     /**

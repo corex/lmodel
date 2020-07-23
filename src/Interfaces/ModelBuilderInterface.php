@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CoRex\Laravel\Model\Interfaces;
 
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinition;
+use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -22,6 +24,13 @@ interface ModelBuilderInterface
      * @param ConfigInterface $config
      */
     public function setConfig(ConfigInterface $config): void;
+
+    /**
+     * Set package definition.
+     *
+     * @param PackageDefinition $packageDefinition
+     */
+    public function setPackageDefinition(PackageDefinition $packageDefinition): void;
 
     /**
      * Set database.
@@ -80,6 +89,20 @@ interface ModelBuilderInterface
      * @return DatabaseInterface
      */
     public function getDatabase(): DatabaseInterface;
+
+    /**
+     * Get package definition.
+     *
+     * @return PackageDefinition|null
+     */
+    public function getPackageDefinition(): ?PackageDefinition;
+
+    /**
+     * Get table definition.
+     *
+     * @return TableDefinition
+     */
+    public function getTableDefinition(): TableDefinition;
 
     /**
      * Get connection.

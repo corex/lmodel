@@ -21,7 +21,8 @@ class MakeModelsCommand extends Command
     protected $signature = 'make:models
         {connection : Name of connection (Specify "." for default)}
         {tables : Comma separated table names to generate (Specify "." to generate all)}
-        {--dryrun : Do not write model(s), but output content of model(s)}';
+        {--d|destination : [dryrun] Output destination (filename, namespace, ...)}
+        {--c|console : [dryrun] Output models to console}';
 
     /**
      * The console command description.
@@ -60,7 +61,6 @@ class MakeModelsCommand extends Command
      */
     public function handle(): void
     {
-        $dryrun = $this->option('dryrun');
         $application = $this->getLaravel();
 
         // Setup and execute models builder.
@@ -71,6 +71,6 @@ class MakeModelsCommand extends Command
         $modelsBulder->setDatabase($this->database);
         $modelsBulder->setApplication($application);
         $modelsBulder->setOutput($this->getOutput());
-        $modelsBulder->execute($this->arguments(), $dryrun);
+        $modelsBulder->execute($this->arguments(), $this->options());
     }
 }

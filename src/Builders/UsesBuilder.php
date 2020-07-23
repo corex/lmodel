@@ -16,8 +16,7 @@ class UsesBuilder extends BaseBuilder
     public function build(): array
     {
         $extends = $this->config->getExtends();
-        $parser = $this->modelBuilder->getParser();
-        $uses = $parser->getUses();
+        $uses = $this->modelBuilder->getParser()->getUses();
 
         // Make sure extends class is added to uses.
         if (!in_array($extends, $uses, true)) {

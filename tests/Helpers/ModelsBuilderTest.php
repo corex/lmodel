@@ -115,7 +115,7 @@ class ModelsBuilderTest extends TestBase
                 'connection' => 'testbench',
                 'tables' => '.'
             ],
-            false
+            []
         );
 
         $output = $bufferedOutput->fetch();
@@ -129,13 +129,50 @@ class ModelsBuilderTest extends TestBase
     }
 
     /**
-     * Test execute dryrun.
+     * Test execute with package definition.
+     *
+     * @throws BindingResolutionException
+     * @throws ConfigException
+     * @throws ReflectionException
+     * @throws WriterException
+     */
+    public function testExecuteWithPackageDefinition(): void
+    {
+        $data = $this->config->toArray();
+        $data['packages']['my/package']['patterns'] = ['^lmodel'];
+        Obj::setProperty('data', $this->config, $data);
+
+        $this->modelsBuilder->setConfig($this->config);
+        $this->modelsBuilder->setDatabase($this->database);
+        $this->modelsBuilder->setApplication($this->application);
+
+        $bufferedOutput = new BufferedOutput();
+        $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
+        $this->modelsBuilder->setOutput($outputStyle);
+
+        $this->modelsBuilder->execute(
+            [
+                'connection' => 'testbench',
+                'tables' => '.'
+            ],
+            [
+                'destination' => false,
+                'console' => true
+            ]
+        );
+
+        $output = $bufferedOutput->fetch();
+        $this->assertStringContainsString('CoRex\Laravel\Model\Models', $output);
+    }
+
+    /**
+     * Test execute option destination.
      *
      * @throws BindingResolutionException
      * @throws ConfigException
      * @throws WriterException
      */
-    public function testExecuteDryrun(): void
+    public function testExecuteDestination(): void
     {
         $this->modelsBuilder->setConfig($this->config);
         $this->modelsBuilder->setDatabase($this->database);
@@ -150,7 +187,43 @@ class ModelsBuilderTest extends TestBase
                 'connection' => 'testbench',
                 'tables' => '.'
             ],
-            true
+            [
+                'destination' => true,
+                'console' => false
+            ]
+        );
+
+        $output = $bufferedOutput->fetch();
+        $this->assertStringContainsString('Files\Testbench\Lmodel', $output);
+        $this->assertStringContainsString('Files/Testbench/Lmodel.php', $output);
+    }
+
+    /**
+     * Test execute option console.
+     *
+     * @throws BindingResolutionException
+     * @throws ConfigException
+     * @throws WriterException
+     */
+    public function testExecuteConsole(): void
+    {
+        $this->modelsBuilder->setConfig($this->config);
+        $this->modelsBuilder->setDatabase($this->database);
+        $this->modelsBuilder->setApplication($this->application);
+
+        $bufferedOutput = new BufferedOutput();
+        $outputStyle = new OutputStyle(new ArgvInput(), $bufferedOutput);
+        $this->modelsBuilder->setOutput($outputStyle);
+
+        $this->modelsBuilder->execute(
+            [
+                'connection' => 'testbench',
+                'tables' => '.'
+            ],
+            [
+                'destination' => false,
+                'console' => true
+            ]
         );
 
         $output = $bufferedOutput->fetch();
@@ -200,7 +273,10 @@ class ModelsBuilderTest extends TestBase
                 'connection' => 'testbench',
                 'tables' => '.'
             ],
-            true
+            [
+                'destination' => false,
+                'console' => true
+            ]
         );
 
         $this->assertStringContainsString('testdeclare', $bufferedOutput->fetch());

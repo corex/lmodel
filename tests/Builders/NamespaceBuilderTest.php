@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\CoRex\Laravel\Model\Builders;
 
 use CoRex\Laravel\Model\Builders\NamespaceBuilder;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinition;
 use Tests\CoRex\Laravel\Model\TestBase;
 
 class NamespaceBuilderTest extends TestBase
@@ -16,10 +17,13 @@ class NamespaceBuilderTest extends TestBase
     {
         $lines = $this->createBuilder(NamespaceBuilder::class)->build();
 
-        $this->assertSame([
-            'namespace ' . $this->config->getNamespace() . '\\Testbench;',
-            '',
-        ], $lines);
+        $this->assertSame(
+            [
+                'namespace ' . $this->config->getNamespace() . '\\Testbench;',
+                '',
+            ],
+            $lines
+        );
     }
 
     /**
@@ -31,9 +35,28 @@ class NamespaceBuilderTest extends TestBase
 
         $lines = $this->createBuilder(NamespaceBuilder::class)->build();
 
-        $this->assertSame([
-            'namespace ' . $this->config->getNamespace() . ';',
-            '',
-        ], $lines);
+        $this->assertSame(
+            [
+                'namespace ' . $this->config->getNamespace() . ';',
+                '',
+            ],
+            $lines
+        );
+    }
+
+    /**
+     * Test build with package namespace.
+     */
+    public function testBuildWithPackageNamespace(): void
+    {
+        $packages = $this->getConfig('packages', []);
+        $packageDefinitionData = $packages['my/package'];
+        $packageDefinition = new PackageDefinition($packageDefinitionData);
+
+        $modelBuilder = $this->modelBuilder;
+        $modelBuilder->setPackageDefinition($packageDefinition);
+        $content = $modelBuilder->build();
+
+        $this->assertStringContainsString('namespace CoRex\Laravel\Model\Models', $content);
     }
 }

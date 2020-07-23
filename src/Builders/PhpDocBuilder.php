@@ -24,10 +24,10 @@ class PhpDocBuilder extends BaseBuilder
      */
     public function build(): array
     {
+        $this->tableDefinition = $this->config->getTableDefinition($this->connection, $this->table);
         $config = $this->modelBuilder->getConfig();
         $columns = $this->modelBuilder->getDatabase()->getColumns($this->table);
         $this->columnTypeMappings = $config->getPhpDocMappings();
-        $this->tableDefinition = $this->config->getTableDefinition($this->connection, $this->table);
 
         // Header.
         $phpdocLines = [

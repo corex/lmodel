@@ -92,14 +92,18 @@ class ModelsBuilder implements ModelsBuilderInterface
      * Execute.
      *
      * @param mixed[] $arguments
-     * @param bool $dryrun
+     * @param array $options
      * @throws BindingResolutionException
      * @throws ConfigException
      * @throws WriterException
      */
-    public function execute(array $arguments, bool $dryrun): void
+    public function execute(array $arguments, array $options): void
     {
-        if (!$dryrun) {
+        // Extract options.
+        $showDestination = $options['destination'] ?? false;
+        $showConsole = $options['console'] ?? false;
+
+        if (!$showDestination && !$showConsole) {
             $this->output('Create/update model(s) from existing schema', 'info');
             $this->output('');
         }
@@ -112,12 +116,20 @@ class ModelsBuilder implements ModelsBuilderInterface
         $this->registerCustomBuilders();
 
         // Make models.
+        $packageDefinitions = $this->config->getPackageDefinitions();
         $numberOfModelsGenerated = 0;
         if (count($this->tables) > 0) {
             foreach ($this->tables as $table) {
                 // Setup and execute model builder.
                 $this->application->bindIf(ModelBuilderInterface::class, ModelBuilder::class);
                 $modelBuilder = $this->application->make(ModelBuilderInterface::class);
+
+                // Set package definition by table.
+                $packageDefinition = $packageDefinitions->getPackageMatch($table);
+                if ($packageDefinition !== null) {
+                    $modelBuilder->setPackageDefinition($packageDefinition);
+                }
+
                 $modelBuilder->setApplication($this->application);
                 $modelBuilder->setConfig($this->config);
                 $modelBuilder->setDatabase($this->database);
@@ -126,17 +138,27 @@ class ModelsBuilder implements ModelsBuilderInterface
                 $content = $modelBuilder->build();
 
                 // Write model to disk.
-                if (!$dryrun) {
+                $filename = $modelBuilder->getModelFilename();
+                $namespaceTable = $modelBuilder->getModelNamespaceFilename();
+                if (!$showDestination && !$showConsole) {
                     $this->writer->clearContent();
-                    $this->writer->setFilename($modelBuilder->getModelFilename());
+                    $this->writer->setFilename($filename);
                     $this->writer->setContent($content);
                     $this->writer->write(true);
                 } else {
-                    $this->output($content);
+                    // Show destination.
+                    if ($showDestination) {
+                        $this->output('Destination: ' . $namespaceTable . ' -> ' . $filename, 'info');
+                    }
+
+                    // Show console.
+                    if ($showConsole) {
+                        $this->output($content);
+                        $this->output('');
+                    }
                 }
 
-                $namespaceTable = $modelBuilder->getModelNamespaceFilename();
-                if (!$dryrun) {
+                if (!$showDestination && !$showConsole) {
                     $this->output('Model [' . $namespaceTable . '] generated.', 'info');
                 }
 
@@ -144,7 +166,7 @@ class ModelsBuilder implements ModelsBuilderInterface
             }
         }
 
-        if (!$dryrun) {
+        if (!$showDestination && !$showConsole) {
             $this->output('');
             $this->output($numberOfModelsGenerated . ' model(s) generated.', 'info');
         }
@@ -172,7 +194,7 @@ class ModelsBuilder implements ModelsBuilderInterface
     private function registerCustomBuilders(): void
     {
         $builderMappings = $this->config->getBuilderMappings();
-        foreach ($builderMappings as $newBuilder => $existingBuilder) {
+        foreach ($builderMappings as $existingBuilder => $newBuilder) {
             $this->application->bindIf($existingBuilder, $newBuilder);
         }
     }

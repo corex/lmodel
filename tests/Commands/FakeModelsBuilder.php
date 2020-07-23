@@ -4,26 +4,32 @@ declare(strict_types=1);
 
 namespace Tests\CoRex\Laravel\Model\Commands;
 
+use CoRex\Laravel\Model\Exceptions\ConfigException;
+use CoRex\Laravel\Model\Exceptions\WriterException;
 use CoRex\Laravel\Model\Helpers\ModelsBuilder;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class FakeModelsBuilder extends ModelsBuilder
 {
     /** @var mixed[] */
     private $arguments = [];
 
-    /** @var bool */
-    private $dryrun = false;
+    /** @var mixed[] */
+    private $options = [];
 
     /**
      * Execute.
      *
      * @param mixed[] $arguments
-     * @param bool $dryrun
+     * @param array $options
+     * @throws BindingResolutionException
+     * @throws ConfigException
+     * @throws WriterException
      */
-    public function execute(array $arguments, bool $dryrun): void
+    public function execute(array $arguments, array $options): void
     {
         $this->arguments = $arguments;
-        $this->dryrun = $dryrun;
+        $this->options = $options;
     }
 
     /**
@@ -37,12 +43,12 @@ class FakeModelsBuilder extends ModelsBuilder
     }
 
     /**
-     * Get dryrun.
+     * Get options.
      *
-     * @return bool
+     * @return mixed[]
      */
-    public function getDryrun(): bool
+    public function getOptions(): array
     {
-        return $this->dryrun;
+        return $this->options;
     }
 }

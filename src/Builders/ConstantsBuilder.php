@@ -20,8 +20,7 @@ class ConstantsBuilder extends BaseBuilder
     public function build(): array
     {
         // Get definitions.
-        $tableDefinition = $this->config->getTableDefinition($this->connection, $this->table);
-        $definitions = $tableDefinition->getConstantDefinitions();
+        $definitions = $this->config->getTableDefinition($this->connection, $this->table)->getConstantDefinitions();
         if (count($definitions) === 0) {
             return [];
         }

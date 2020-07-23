@@ -13,30 +13,13 @@ use Tests\CoRex\Laravel\Model\TestBase;
 class ConstantsBuilderTest extends TestBase
 {
     /**
-     * Test build two.
+     * Test build.
      */
-    public function testBuildTwo(): void
+    public function testBuild(): void
     {
         $lines = $this->createBuilder(ConstantsBuilder::class)->build();
         for ($counter = 1; $counter <= 10; $counter++) {
             $this->assertLinesContains('public const NUMCODE_' . $counter . 'S = ' . $counter . ';', $lines);
-            $this->assertLinesContains('public const STRCODE_' . $counter . 'S = \'String ' . $counter . '\';', $lines);
-        }
-    }
-
-    /**
-     * Test build one.
-     */
-    public function testBuildOne(): void
-    {
-        // Convert to single and not list.
-        $configTables = $this->getConfig('tables', []);
-        $configTables['testbench']['lmodel']['constants'] = $configTables['testbench']['lmodel']['constants'][1];
-        $this->setConfig('tables', $configTables);
-
-        $lines = $this->createBuilder(ConstantsBuilder::class)->build();
-        for ($counter = 1; $counter <= 10; $counter++) {
-            $this->assertLinesNotContains('public const NUMCODE_' . $counter . 'S = ' . $counter . ';', $lines);
             $this->assertLinesContains('public const STRCODE_' . $counter . 'S = \'String ' . $counter . '\';', $lines);
         }
     }

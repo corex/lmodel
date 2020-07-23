@@ -134,10 +134,12 @@ abstract class TestBase extends TestCase
     {
         parent::setUp();
 
+        $testData = TestData::getConfig();
+
         $this->loadMigrationsFrom(dirname(__DIR__) . '/tests/migrations');
 
         // Create configuration.
-        $this->config = new Config(TestData::getConfig());
+        $this->config = new Config($testData);
 
         $this->database = new Database();
         $this->database->setConnection('testbench');

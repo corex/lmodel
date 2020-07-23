@@ -30,28 +30,37 @@ return [
     // Max line length.
     'maxLineLength' => 120,
 
-    // Doctrine type mappings.
-    'doctrine' => [
-        // 'database-type' => 'doctrine-type'
+    // Doctrine type mappings ['database-type' => 'doctrine-type'].
+    'doctrine' => [],
+
+    // PhpDoc type mappings ['{database-type}' => '{php-var-type}'].
+    'phpdoc' => [],
+
+    // Builders ['{exsting-builder}' => '{new-builder}'].
+    'builders' => [],
+
+    // Tables to ignore on connection (migration table is automatically ignored).
+    // ['{connection}' => ['{table}', '{table}']]
+    'ignored' => [],
+
+    // Package definitions.
+    'packages' => [
+
+        // Package ({vendor}/{project}).
+        '{package}' => [
+
+            // Absolute path to root of package where composer.json lives.
+            'package' => '{path-to-package}',
+
+            // Relative path from root of package where models should be generated.
+            'relative' => '{relative-path-to-models}',
+
+            // Patterns for matching tables belonging to this package.
+            'patterns' => ['{table-matching-pattern}', '{table-matching-pattern}']
+        ]
     ],
 
-    // PhpDoc type mappings.
-    'phpdoc' => [
-        // '{database-type}' => '{php-var-type}'
-    ],
-
-    // Builders.
-    'builders' => [
-        // '{new-builder}' => '{exsting-builder}'
-    ],
-
-    // Ignored tables.
-    'ignored' => [
-        // Tables to ignore on connection (migration table is automatically ignored).
-        // '{connection}' => ['{table}', '{table}']
-    ],
-
-    // Tables to handle in a specific way.
+    // Tables to handle in a specific way (both project and package tables).
     'tables' => [
         '{connection}' => [
             '{table}' => [
@@ -76,7 +85,7 @@ return [
                 // List of readonly columns (PhpDoc @property-read).
                 'readonly' => [],
 
-                // Constants (supports both [] and [[]]).
+                // Constants.
                 'constants' => [
                     [
                         // Title of constant.

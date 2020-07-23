@@ -48,7 +48,7 @@ interface ModelsBuilderInterface
      * Execute.
      *
      * @param mixed[] $arguments
-     * @param bool $dryrun
+     * @param mixed[] $options
      */
-    public function execute(array $arguments, bool $dryrun): void;
+    public function execute(array $arguments, array $options): void;
 }

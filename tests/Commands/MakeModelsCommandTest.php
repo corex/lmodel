@@ -52,7 +52,8 @@ class MakeModelsCommandTest extends TestBase
             [
                 'connection' => 'testbench',
                 'tables' => 'ltest',
-                '--dryrun' => true,
+                '--destination' => true,
+                '--console' => true,
             ]
         );
 
@@ -80,8 +81,14 @@ class MakeModelsCommandTest extends TestBase
         $this->assertTrue(array_key_exists('tables', $arguments));
         $this->assertTrue(in_array('ltest', $arguments, true));
 
-        // Validate dryrun.
-        $this->assertTrue($fakeModelsBuilder->getDryrun());
+        // Validate options.
+        $options = $fakeModelsBuilder->getOptions();
+
+        $this->assertArrayHasKey('destination', $options);
+        $this->assertTrue($options['destination']);
+
+        $this->assertArrayHasKey('console', $options);
+        $this->assertTrue($options['console']);
     }
 
     /**
@@ -109,8 +116,8 @@ class MakeModelsCommandTest extends TestBase
         );
 
         // Setup fake models builder.
-        $fakeModelsBuilderException = new FakeModelsBuilderException();
-        $this->app->instance(ModelsBuilderInterface::class, $fakeModelsBuilderException);
+        $fakeModelsBuilder = new FakeModelsBuilderException();
+        $this->app->instance(ModelsBuilderInterface::class, $fakeModelsBuilder);
 
         // Call command.
         Artisan::call(
@@ -118,7 +125,7 @@ class MakeModelsCommandTest extends TestBase
             [
                 'connection' => 'testbench',
                 'tables' => 'ltest',
-                '--dryrun' => true,
+                '--console' => true,
             ]
         );
     }

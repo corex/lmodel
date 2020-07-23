@@ -7,6 +7,9 @@ namespace Tests\CoRex\Laravel\Model\Helpers;
 use CoRex\Helpers\Obj;
 use CoRex\Laravel\Model\Constants;
 use CoRex\Laravel\Model\Exceptions\BuilderException;
+use CoRex\Laravel\Model\Exceptions\ConfigException;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinition;
+use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 use CoRex\Laravel\Model\Helpers\ModelBuilder;
 use CoRex\Laravel\Model\Interfaces\ConfigInterface;
 use CoRex\Laravel\Model\Interfaces\DatabaseInterface;
@@ -39,6 +42,19 @@ class ModelBuilderTest extends TestBase
     }
 
     /**
+     * Test set package definition.
+     *
+     * @throws ReflectionException
+     */
+    public function testSetPackageDefinition(): void
+    {
+        $this->assertNull(Obj::getProperty('packageDefinition', $this->modelBuilder));
+
+        $this->modelBuilder->setPackageDefinition(new PackageDefinition([]));
+        $this->assertInstanceOf(PackageDefinition::class, Obj::getProperty('packageDefinition', $this->modelBuilder));
+    }
+
+    /**
      * Test set database.
      *
      * @throws ReflectionException
@@ -58,6 +74,7 @@ class ModelBuilderTest extends TestBase
         $this->assertSame($this->connection, Obj::getProperty('connection', $this->modelBuilder));
         $this->assertSame($this->table, Obj::getProperty('table', $this->modelBuilder));
         $this->assertInstanceOf(ParserInterface::class, Obj::getProperty('parser', $this->modelBuilder));
+        $this->assertInstanceOf(TableDefinition::class, Obj::getProperty('tableDefinition', $this->modelBuilder));
     }
 
     /**
@@ -123,6 +140,29 @@ class ModelBuilderTest extends TestBase
     }
 
     /**
+     * Test get model namespace filename with package.
+     *
+     * @throws ConfigException
+     */
+    public function testGetModelNamespaceFilenameWithPackage(): void
+    {
+        $data = [
+            'package' => dirname(__DIR__, 2),
+            'relative' => 'src/Models',
+            'patterns' => [
+                '^test'
+            ]
+        ];
+
+        $packageDefinition = new PackageDefinition($data);
+
+        $modelNamespace = 'CoRex\Laravel\Model\Models\Lmodel';
+
+        $this->modelBuilder->setPackageDefinition($packageDefinition);
+        $this->assertSame($modelNamespace, $this->modelBuilder->getModelNamespaceFilename());
+    }
+
+    /**
      * Test get config.
      */
     public function testGetConfig(): void
@@ -147,6 +187,14 @@ class ModelBuilderTest extends TestBase
     }
 
     /**
+     * Test get table definition.
+     */
+    public function testGetTableDefinition(): void
+    {
+        $this->assertInstanceOf(TableDefinition::class, $this->modelBuilder->getTableDefinition());
+    }
+
+    /**
      * Test get connection.
      */
     public function testGetConnection(): void
@@ -168,5 +216,42 @@ class ModelBuilderTest extends TestBase
     public function testGetClass(): void
     {
         $this->assertSame('Lmodel', $this->modelBuilder->getClass());
+    }
+
+    /**
+     * Test build filename.
+     *
+     * @throws ReflectionException
+     */
+    public function testBuildFilename(): void
+    {
+        Obj::callMethod('buildFilename', $this->modelBuilder);
+
+        $this->assertStringContainsString(
+            'Files/Testbench/Lmodel',
+            Obj::getProperty('filename', $this->modelBuilder)
+        );
+    }
+
+    /**
+     * Test build filename with package definition.
+     *
+     * @throws ReflectionException
+     */
+    public function testBuildFilenameWithPackageDefinition(): void
+    {
+        $packages = $this->getConfig('packages', []);
+        $packageDefinitionData = $packages['my/package'];
+        $packageDefinition = new PackageDefinition($packageDefinitionData);
+
+        $modelBuilder = $this->modelBuilder;
+        $modelBuilder->setPackageDefinition($packageDefinition);
+
+        Obj::callMethod('buildFilename', $this->modelBuilder);
+
+        $this->assertStringContainsString(
+            'src/Models/Lmodel',
+            Obj::getProperty('filename', $this->modelBuilder)
+        );
     }
 }

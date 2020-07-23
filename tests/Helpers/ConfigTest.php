@@ -9,6 +9,7 @@ use CoRex\Laravel\Model\Builders\DeclareStrictBuilder;
 use CoRex\Laravel\Model\Constants;
 use CoRex\Laravel\Model\Exceptions\ConfigException;
 use CoRex\Laravel\Model\Helpers\Config;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinitions;
 use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 use Illuminate\Database\Eloquent\Model;
 use Orchestra\Testbench\TestCase;
@@ -254,7 +255,7 @@ class ConfigTest extends TestCase
         // Assert standard.
         $this->assertSame(
             [
-                FakeDeclareStrictBuilder::class => DeclareStrictBuilder::class
+                DeclareStrictBuilder::class => FakeDeclareStrictBuilder::class
             ],
             $this->config()->getBuilderMappings()
         );
@@ -284,12 +285,26 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * Test get package definition.
+     */
+    public function testGetPackageDefinitions(): void
+    {
+        $packageDefinitions = $this->config()->getPackageDefinitions();
+        $this->assertInstanceOf(PackageDefinitions::class, $packageDefinitions);
+    }
+
+    /**
      * Test get table definition.
      */
     public function testGetTableDefinition(): void
     {
-        $this->assertInstanceOf(TableDefinition::class, $this->config()->getTableDefinition('main', 'lmodel'));
-        $this->assertInstanceOf(TableDefinition::class, $this->config()->getTableDefinition('unknown', 'unknown'));
+        $tableDefinition = $this->config()->getTableDefinition('testbench', 'lmodel');
+        $this->assertInstanceOf(TableDefinition::class, $tableDefinition);
+        $this->assertTrue($tableDefinition->isValid());
+
+        $tableDefinition = $this->config()->getTableDefinition('unknown', 'unknown');
+        $this->assertInstanceOf(TableDefinition::class, $tableDefinition);
+        $this->assertFalse($tableDefinition->isValid());
     }
 
     /**

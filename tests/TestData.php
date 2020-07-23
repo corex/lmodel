@@ -70,6 +70,7 @@ class TestData
     {
         return array_merge(
             [
+                'package' => null,
                 'created_at' => 'created_at_test',
                 'updated_at' => 'updated_at_test',
                 'date_format' => 'U',

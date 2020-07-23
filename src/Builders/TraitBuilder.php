@@ -15,8 +15,7 @@ class TraitBuilder extends BaseBuilder
      */
     public function build(): array
     {
-        $parser = $this->modelBuilder->getParser();
-        $traits = $parser->getTraits();
+        $traits = $this->modelBuilder->getParser()->getTraits();
 
         $result = [];
         foreach ($traits as $trait) {

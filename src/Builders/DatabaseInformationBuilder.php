@@ -32,8 +32,8 @@ class DatabaseInformationBuilder extends BaseBuilder
 
         $result = [];
 
-        // Add database connection.
-        if ($this->config->getAddDatabaseConnection()) {
+        // Add database connection if table is not connected to a package.
+        if ($this->packageDefinition === null && $this->config->getAddDatabaseConnection()) {
             $result[] = $this->indent(1) . 'protected $connection = \'' . $this->connection . '\';';
         }
 

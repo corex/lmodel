@@ -17,6 +17,10 @@ use CoRex\Laravel\Model\Builders\TimestampsBuilder;
 use CoRex\Laravel\Model\Builders\TraitBuilder;
 use CoRex\Laravel\Model\Builders\UsesBuilder;
 use CoRex\Laravel\Model\Exceptions\BuilderException;
+use CoRex\Laravel\Model\Exceptions\ConfigException;
+use CoRex\Laravel\Model\Exceptions\ModelException;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinition;
+use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 use CoRex\Laravel\Model\Interfaces\BuilderInterface;
 use CoRex\Laravel\Model\Interfaces\ConfigInterface;
 use CoRex\Laravel\Model\Interfaces\DatabaseInterface;
@@ -25,6 +29,7 @@ use CoRex\Laravel\Model\Interfaces\ParserInterface;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Str;
+use ReflectionException;
 
 class ModelBuilder implements ModelBuilderInterface
 {
@@ -52,6 +57,12 @@ class ModelBuilder implements ModelBuilderInterface
     /** @var DatabaseInterface */
     private $database;
 
+    /** @var PackageDefinition */
+    private $packageDefinition;
+
+    /** @var TableDefinition */
+    private $tableDefinition;
+
     /**
      * Set application.
      *
@@ -73,6 +84,16 @@ class ModelBuilder implements ModelBuilderInterface
     }
 
     /**
+     * Set package definition.
+     *
+     * @param PackageDefinition $packageDefinition
+     */
+    public function setPackageDefinition(PackageDefinition $packageDefinition): void
+    {
+        $this->packageDefinition = $packageDefinition;
+    }
+
+    /**
      * Set database.
      *
      * @param DatabaseInterface $database
@@ -89,12 +110,17 @@ class ModelBuilder implements ModelBuilderInterface
      * @param string $table
      * @throws BindingResolutionException
      * @throws BuilderException
+     * @throws ModelException
+     * @throws ReflectionException
      */
     public function setTable(string $connection, string $table): void
     {
         $this->connection = $connection;
         $this->table = $table;
         $this->class = Str::studly($this->table);
+
+        // Set table definition.
+        $this->tableDefinition = $this->config->getTableDefinition($connection, $table);
 
         // Build filename.
         $this->buildFilename();
@@ -159,9 +185,15 @@ class ModelBuilder implements ModelBuilderInterface
      * Get model namespace filename.
      *
      * @return string
+     * @throws ConfigException
      */
     public function getModelNamespaceFilename(): string
     {
+        // Get model filename from package settings.
+        if ($this->packageDefinition !== null && $this->packageDefinition->isValid()) {
+            return $this->packageDefinition->getModelClass($this->table);
+        }
+
         $parts = [$this->config->getNamespace()];
 
         if ($this->config->getAddConnectionToNamespace()) {
@@ -204,6 +236,26 @@ class ModelBuilder implements ModelBuilderInterface
     }
 
     /**
+     * Get package definition.
+     *
+     * @return PackageDefinition|null
+     */
+    public function getPackageDefinition(): ?PackageDefinition
+    {
+        return $this->packageDefinition;
+    }
+
+    /**
+     * Get table definition.
+     *
+     * @return TableDefinition
+     */
+    public function getTableDefinition(): TableDefinition
+    {
+        return $this->tableDefinition;
+    }
+
+    /**
      * Get connection.
      *
      * @return string
@@ -238,8 +290,15 @@ class ModelBuilder implements ModelBuilderInterface
      */
     private function buildFilename(): void
     {
-        $parts = [$this->config->getPath()];
+        // Get model filename from package settings.
+        if ($this->packageDefinition !== null && $this->packageDefinition->isValid()) {
+            $this->filename = $this->packageDefinition->getModelFilename($this->table);
 
+            return;
+        }
+
+        // Get model filename from global settings.
+        $parts = [$this->config->getPath()];
         if ($this->config->getAddConnectionToNamespace()) {
             $parts[] = ucfirst($this->connection);
         }

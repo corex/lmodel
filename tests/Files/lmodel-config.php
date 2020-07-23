@@ -34,28 +34,45 @@ return [
     // Max line length.
     'maxLineLength' => 120,
 
-    // Doctrine type mappings.
+    // Doctrine type mappings ['database-type' => 'doctrine-type'].
     'doctrine' => [
-        // 'database-type' => 'doctrine-type'
         'test-type' => 'string'
     ],
 
-    // PhpDoc type mappings.
-    'phpdoc' => [
-        // '{database-type}' => '{php-var-type}'
-    ],
+    // PhpDoc type mappings ['{database-type}' => '{php-var-type}'].
+    'phpdoc' => [],
 
-    // Builders.
+    // Builders ['{exsting-builder}' => '{new-builder}'].
     'builders' => [
-        // '{new-builder}' => '{exsting-builder}'
-        FakeDeclareStrictBuilder::class => DeclareStrictBuilder::class
+        DeclareStrictBuilder::class => FakeDeclareStrictBuilder::class
     ],
 
-    // Ignored tables.
+    // Tables to ignore on connection (migration table is automatically ignored).
+    // ['{connection}' => ['{table}', '{table}']]
     'ignored' => [
-        // Tables to ignore on connection (migration table is automatically ignored).
-        // '{connection}' => ['{table}', '{table}']
         'testbench' => ['ltest', 'table2']
+    ],
+
+    // Package definitions.
+    'packages' => [
+
+        // Package ({vendor}/{project}).
+        '{package}' => [
+
+            // Absolute path to root of package where composer.json lives.
+            'package' => '{path-to-package}',
+
+            // Relative path from root of package where models should be generated.
+            'relative' => '{relative-path-to-models}',
+
+            // Patterns for matching tables belonging to this package.
+            'patterns' => ['{table-matching-pattern}', '{table-matching-pattern}']
+        ],
+
+        'my/package' => [
+            'package' => dirname(__DIR__, 2),
+            'relative' => 'src/Models'
+        ]
     ],
 
     // Tables to handle in a specific way.

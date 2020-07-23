@@ -33,6 +33,15 @@ class TableDefinitionTest extends TestCase
     }
 
     /**
+     * Test is valid.
+     */
+    public function testIsValid(): void
+    {
+        $this->assertFalse((new TableDefinition([]))->isValid());
+        $this->assertTrue((new TableDefinition(['something' => 'something']))->isValid());
+    }
+
+    /**
      * Test get timestamps created_at.
      */
     public function testGetTimestampsCreatedAt(): void
@@ -102,26 +111,6 @@ class TableDefinitionTest extends TestCase
         $this->assertSame(
             $this->data['constants'][1],
             Obj::getProperty('data', $definitions[1])
-        );
-    }
-
-    /**
-     * Test get constant definitions one.
-     *
-     * @throws ReflectionException
-     */
-    public function testGetConstantDefinitionsOne(): void
-    {
-        $this->data['constants'] = $this->data['constants'][0];
-        $tableDefinition = new TableDefinition($this->data);
-        $definitions = $tableDefinition->getConstantDefinitions();
-        $this->assertCount(1, $definitions);
-
-        // Assert constants 1.
-        $this->assertInstanceOf(ConstantDefinition::class, $definitions[0]);
-        $this->assertSame(
-            $this->data['constants'],
-            Obj::getProperty('data', $definitions[0])
         );
     }
 

@@ -6,6 +6,7 @@ namespace Tests\CoRex\Laravel\Model\Builders;
 
 use CoRex\Helpers\Obj;
 use CoRex\Laravel\Model\Builders\DatabaseInformationBuilder;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinition;
 use ReflectionException;
 use Tests\CoRex\Laravel\Model\TestBase;
 
@@ -48,6 +49,29 @@ class DatabaseInformationBuilderTest extends TestBase
         $lines = $this->createBuilder(DatabaseInformationBuilder::class)->build();
         $this->assertLinesContains(self::DATABASE, $lines);
         $this->assertLinesContains(self::CONNECTION, $lines);
+        $this->assertLinesNotContains(self::TABLE, $lines);
+        $this->assertLinesNotContains(self::FILLABLE, $lines);
+        $this->assertLinesNotContains(self::GUARDED, $lines);
+    }
+
+    /**
+     * Test build with connection and package definition.
+     *
+     * @throws ReflectionException
+     */
+    public function testBuildWithConnectionAndPackageDefinition(): void
+    {
+        $this->setConfig('addDatabaseConnection', true);
+        $this->setConfig('addDatabaseTable', false);
+        $this->setConfig('tables', []);
+
+        $this->modelBuilder->setPackageDefinition(new PackageDefinition([]));
+        $builder = new DatabaseInformationBuilder();
+        $builder->setModelBuilder($this->modelBuilder);
+
+        $lines = $builder->build();
+        $this->assertLinesNotContains(self::DATABASE, $lines);
+        $this->assertLinesNotContains(self::CONNECTION, $lines);
         $this->assertLinesNotContains(self::TABLE, $lines);
         $this->assertLinesNotContains(self::FILLABLE, $lines);
         $this->assertLinesNotContains(self::GUARDED, $lines);

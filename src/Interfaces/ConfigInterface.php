@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CoRex\Laravel\Model\Interfaces;
 
 use CoRex\Laravel\Model\Exceptions\ConfigException;
+use CoRex\Laravel\Model\Helpers\Definitions\PackageDefinitions;
 use CoRex\Laravel\Model\Helpers\Definitions\TableDefinition;
 
 interface ConfigInterface
@@ -108,6 +109,13 @@ interface ConfigInterface
      * @return string[]
      */
     public function getIgnoredTables(string $connection): array;
+
+    /**
+     * Get package definitions.
+     *
+     * @return PackageDefinitions
+     */
+    public function getPackageDefinitions(): PackageDefinitions;
 
     /**
      * Get table definition.
