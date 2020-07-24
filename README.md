@@ -67,10 +67,9 @@ Existing builders (executed in this order).
 
 Example of replacing "DeclareStrictBuilder".
 ```php
-    // Builders.
+    // Builders ['{new-builder}' => '{existing-builder}'].
     'builders' => [
-        // '{exsting-builder}' => '{new-builder}'
-        DeclareStrictBuilder::class => MyDeclareStrictBuilder::class
+        MyDeclareStrictBuilder::class => DeclareStrictBuilder::class
     ],
 ```
 
