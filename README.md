@@ -4,11 +4,7 @@
 ![Build Status](https://travis-ci.org/corex/lmodel.svg?branch=master)
 ![codecov](https://codecov.io/gh/corex/lmodel/branch/master/graph/badge.svg)
 
-**Note: Breaking changes from V1 to V2.**
-- Config file has been renamed.
-- Removed option to specify guarded fields on commands, since it is possible to specify in config file.
-
-The purpose of this package is to make it easy to implement existing databases and help with package development.
+The purpose of this package is to make it easy to implement existing databases and help with model generation for project and package development.
 
 Connect to your existing database and generate models based on existing schema.
 - Support for "declare(strict_types=1);" (PSR-12).
@@ -30,6 +26,16 @@ Connect to your existing database and generate models based on existing schema.
 
 Generating a model will always overwrite existing model, but every line
 below "preserve" identifier, will be preserved. Uses and Traits will also be preserved.
+
+
+## Breaking changes from V1 to V2.
+The package has been rewritten and due to many new settings and features, all settings and features
+has been moved to configuration file. This way it can follow the project and does not require a lot
+of scripting.
+- Requires php 7.2.5+ and Laravel 7.x
+- Config file has been renamed to ```{root}/config/lmodel.php``` and new settings added.
+- Removed option to specify guarded fields on commands. It is now possible to specify in config file.
+- It is no longer needed to specify service provider in AppServiceProviders@register method. Service provider is detected through Laravel's Package Discovery mechanism.
 
 
 ## Installation
