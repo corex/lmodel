@@ -36,7 +36,7 @@ return [
     // PhpDoc type mappings ['{database-type}' => '{php-var-type}'].
     'phpdoc' => [],
 
-    // Builders ['{exsting-builder}' => '{new-builder}'].
+    // Builders ['{new-builder}' => '{existing-builder}'].
     'builders' => [],
 
     // Tables to ignore on connection (migration table is automatically ignored).
