@@ -1,6 +1,4 @@
-# Laravel Model Generator
-
-Model Generator for Laravel.
+# Model Generator for Laravel 
 
 **_Versioning for this package follows http://semver.org/. Backwards compatibility might break on upgrade to major versions._**
 
