@@ -16,7 +16,7 @@ return [
     'addConnectionToNamespace' => false,
 
     // true/false if connection should be set on model.
-    'addDatabaseConnection' => true,
+    'addDatabaseConnection' => false,
 
     // true/false if table should be set on model.
     'addDatabaseTable' => true,
