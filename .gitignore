@@ -4,3 +4,4 @@ temp/
 composer.lock
 database.php
 /log
+/.phpunit.result.cache
