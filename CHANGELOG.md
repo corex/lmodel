@@ -16,3 +16,4 @@
 ### Changed
 - Configuration refactored and config file is renamed to "lmodel.php".
 - Package rewritten to support overriding code at almost every level.
+- Changed requirements for Laravel ^8
