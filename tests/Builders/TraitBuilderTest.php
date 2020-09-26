@@ -15,8 +15,8 @@ class TraitBuilderTest extends TestBase
     public function testBuildExisting(): void
     {
         $lines = $this->createBuilder(TraitBuilder::class)->build();
-        $this->assertLinesContains('use TesterTrait;', $lines);
-        $this->assertLinesContains('use TranslatorTrait;', $lines);
+        $this->assertLinesContains($this->indent(1) . 'use TesterTrait;', $lines);
+        $this->assertLinesContains($this->indent(1) . 'use TranslatorTrait;', $lines);
     }
 
     /**

@@ -64,17 +64,20 @@ return [
     'tables' => [
         '{connection}' => [
             '{table}' => [
+                // Output name of table i.e table "users" => "user". If null, table name is used.
+                'output_name' => null,
+
                 // Customize the name of the column used to store the timestamp CREATED_AT,
                 // Value null means do not handle.
-                'created_at' => null,
+                'created_at' => 'created_davs',
 
                 // Customize the name of the column used to store the timestamp UPDATED_AT,
                 // Value null means do not handle.
-                'updated_at' => null,
+                'updated_at' => 'updated_davs',
 
                 // The storage format of the model's date columns.
                 // Value null means do not handle.
-                'date_format' => null,
+                'date_format' => '1234',
 
                 // List of fillable columns.
                 'fillable' => [],
@@ -84,6 +87,16 @@ return [
 
                 // List of readonly columns (PhpDoc @property-read).
                 'readonly' => [],
+
+                // List of attributes that should be hidden for arrays.
+                'hidden' => [],
+
+                // List of attributes that should be cast to native types.
+                // ['{attribute}' => '{cast-type-implementing-CastsAttributes}']
+                'casts' => [],
+
+                // List of accessors to append to the model's array form.
+                'appends' => [],
 
                 // Constants.
                 'constants' => [

@@ -12,14 +12,12 @@ class CreateLmodelTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         $enumValues = ['new', 'open', 'closed'];
 
-        Schema::create('lmodel', function (Blueprint $table) use ($enumValues) {
+        Schema::create('lmodel', function (Blueprint $table) use ($enumValues): void {
             $table->id();
             $table->string('code', 50)->comment('Code for constants etc.');
             $table->integer('number')->unsigned()->comment('Number to have fun with.');
@@ -32,8 +30,7 @@ class CreateLmodelTable extends Migration
 
         $counter = 1;
         while ($counter <= 10) {
-
-            $randomEnum = mt_rand(0, 2);
+            $randomEnum = random_int(0, 2);
 
             DB::table('lmodel')->insert([
                 'code' => 'Code ' . $counter,
@@ -50,10 +47,8 @@ class CreateLmodelTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::drop('lmodel');
     }

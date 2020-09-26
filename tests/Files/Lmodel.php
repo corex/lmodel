@@ -51,6 +51,9 @@ class Lmodel extends Model
     protected $table = 'lmodel';
     protected $fillable = ['code', 'number', 'string'];
     protected $guarded = ['code', 'number', 'string'];
+    protected $hidden = ['code', 'number', 'string'];
+    protected $casts = ['field1' => 'code', 'field2' => 'number', 'field3' => 'string'];
+    protected $appends = ['code', 'number', 'string'];
 
     /* ---- Everything after this line will be preserved. ---- */
 

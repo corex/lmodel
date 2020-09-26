@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace CoRex\Laravel\Model\Builders;
 
 use CoRex\Laravel\Model\Base\BaseBuilder;
+use CoRex\Laravel\Model\Constants;
 
 class DatabaseInformationBuilder extends BaseBuilder
 {
-    /** @var int */
-    private $maxLineLength;
-
     /**
      * Build.
      *
@@ -18,7 +16,6 @@ class DatabaseInformationBuilder extends BaseBuilder
      */
     public function build(): array
     {
-        $this->maxLineLength = $this->config->getMaxLineLength();
         $schemaColumnNames = array_keys($this->modelBuilder->getDatabase()->getColumns($this->table));
         $tableDefinition = $this->config->getTableDefinition($this->connection, $this->table);
 
@@ -29,6 +26,15 @@ class DatabaseInformationBuilder extends BaseBuilder
         // Prepare guarded column names.
         $guardedColumnNames = $tableDefinition->getGuardedColumns();
         $this->filterOutColumnsNotInSchema($guardedColumnNames, $schemaColumnNames);
+
+        // Prepare hidden column names.
+        $hiddenAttributes = $tableDefinition->getHiddenAttributes();
+
+        // Prepare casts.
+        $castAttributes = $tableDefinition->getCastAttributes();
+
+        // Prepare appends.
+        $accessors = $tableDefinition->getAccessors();
 
         $result = [];
 
@@ -44,20 +50,41 @@ class DatabaseInformationBuilder extends BaseBuilder
 
         // Add fillable column names.
         if (count($fillableColumnNames) > 0) {
-            $result = array_merge($result, $this->buildFields('fillable', $fillableColumnNames));
+            $result[] = '';
+            $comment = Constants::ATTRIBUTES_FILLABLE;
+            $result = array_merge($result, $this->buildFields($comment, 'fillable', $fillableColumnNames, false));
         }
 
         // Add guarded column names.
         if (count($guardedColumnNames) > 0) {
-            $result = array_merge($result, $this->buildFields('guarded', $guardedColumnNames));
+            $result[] = '';
+            $comment = Constants::ATTRIBUTES_GUARDED;
+            $result = array_merge($result, $this->buildFields($comment, 'guarded', $guardedColumnNames, false));
+        }
+
+        // Add hidden attributes.
+        if (count($hiddenAttributes) > 0) {
+            $result[] = '';
+            $comment = Constants::ATTRIBUTES_HIDDEN;
+            $result = array_merge($result, $this->buildFields($comment, 'hidden', $hiddenAttributes, false));
+        }
+
+        // Add cast attributes.
+        if (count($castAttributes) > 0) {
+            $result[] = '';
+            $comment = Constants::ATTRIBUTES_CASTS;
+            $result = array_merge($result, $this->buildFields($comment, 'casts', $castAttributes, true));
+        }
+
+        // Add accessors (appends).
+        if (count($accessors) > 0) {
+            $result[] = '';
+            $comment = Constants::ATTRIBUTES_ACCESSORS;
+            $result = array_merge($result, $this->buildFields($comment, 'appends', $accessors, false));
         }
 
         // Footer.
         if (count($result) > 0) {
-            $result = array_merge(
-                [$this->indent(1) . '// Database.'],
-                $result
-            );
             $result[] = '';
         }
 
@@ -67,45 +94,37 @@ class DatabaseInformationBuilder extends BaseBuilder
     /**
      * Build fields.
      *
+     * @param string $comment
      * @param string $signature
      * @param string[] $columnNames
+     * @param bool $useIndex
      * @return string[]
      */
-    protected function buildFields(string $signature, array $columnNames): array
+    protected function buildFields(string $comment, string $signature, array $columnNames, bool $useIndex): array
     {
         // Create first line to build on.
-        $lines = [$this->indent(1) . 'protected $' . $signature . ' = ['];
+        $lines = [
+            $this->indent(1) . '// ' . $comment,
+            $this->indent(1) . 'protected $' . $signature . ' = ['
+        ];
 
         $columnCounter = 1;
-        foreach ($columnNames as $columnName) {
-            // Get last index.
-            $lastIndex = count($lines) - 1;
-
-            // Calculate length (length of column + space + "''" +and ".").
-            $columnLength = strlen($columnName) + 4;
-
-            // Add column.
-            $preparedField = '\'' . $columnName . '\'';
-            if (strlen($lines[$lastIndex]) + $columnLength < $this->maxLineLength) {
-                if ($columnCounter > 1) {
-                    $lines[$lastIndex] .= ' ';
-                }
-
-                $lines[$lastIndex] .= $preparedField;
-            } else {
-                $lines[] = $this->indent(2) . $preparedField;
-                $lastIndex = count($lines) - 1;
+        foreach ($columnNames as $index => $columnName) {
+            $line = $this->indent(2);
+            if ($useIndex) {
+                $line .= '\'' . $index . '\' => ';
             }
+            $lines[] = $line . '\'' . $columnName . '\'';
 
             // Increase count and add ','.
             $columnCounter++;
             if ($columnCounter <= count($columnNames)) {
-                $lines[$lastIndex] .= ',';
+                $lines[count($lines) - 1] .= ',';
             }
         }
 
         // Footer.
-        $lines[count($lines) - 1] .= '];';
+        $lines[] = $this->indent(1) . '];';
 
         return $lines;
     }

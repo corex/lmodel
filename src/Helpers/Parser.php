@@ -90,7 +90,7 @@ class Parser implements ParserInterface
 
         // Validate class existence.
         if (!class_exists($this->class)) {
-            throw new ModelException('Class "' . $this->class . '" does not exist.');
+            throw new ModelException(sprintf('Class "%s" does not exist.', $this->class));
         }
 
         $this->reflectionClass = new ReflectionClass($this->class);

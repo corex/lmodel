@@ -100,6 +100,16 @@ return [
                 // List of readonly columns (PhpDoc @property-read).
                 'readonly' => ['code'],
 
+                // List of attributes that should be hidden for arrays.
+                'hidden' => ['code', 'number', 'string'],
+
+                // List of attributes that should be cast to native types.
+                // ['{attribute}' => '{cast-type-implementing-CastsAttributes}']
+                'casts' => ['field1' => 'code', 'field2' => 'number', 'field3' => 'string'],
+
+                // List of accessors to append to the model's array form.
+                'appends' => ['code', 'number', 'string'],
+
                 // Constants (supports both [] and [[]]).
                 'constants' => [
                     [

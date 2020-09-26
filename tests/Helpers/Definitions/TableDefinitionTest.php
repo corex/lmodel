@@ -90,6 +90,30 @@ class TableDefinitionTest extends TestCase
     }
 
     /**
+     * Test get hidden attributes.
+     */
+    public function testGetHiddenAttributes(): void
+    {
+        $this->assertSame($this->data['hidden'], $this->definition->getHiddenAttributes());
+    }
+
+    /**
+     * Test get cast attributes.
+     */
+    public function testGetCastAttributes(): void
+    {
+        $this->assertSame($this->data['casts'], $this->definition->getCastAttributes());
+    }
+
+    /**
+     * Test get accessors.
+     */
+    public function testGetAccessors(): void
+    {
+        $this->assertSame($this->data['appends'], $this->definition->getAccessors());
+    }
+
+    /**
      * Test get constant definitions.
      *
      * @throws ReflectionException

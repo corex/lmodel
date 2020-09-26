@@ -117,10 +117,13 @@ class ModelBuilder implements ModelBuilderInterface
     {
         $this->connection = $connection;
         $this->table = $table;
-        $this->class = Str::studly($this->table);
 
         // Set table definition.
         $this->tableDefinition = $this->config->getTableDefinition($connection, $table);
+
+        // Set class.
+        $table = $this->prepareTableName($this->table);
+        $this->class = Str::studly($table);
 
         // Build filename.
         $this->buildFilename();
@@ -200,7 +203,8 @@ class ModelBuilder implements ModelBuilderInterface
             $parts[] = ucfirst($this->connection);
         }
 
-        $parts[] = Str::studly($this->table);
+        $table = $this->prepareTableName($this->table);
+        $parts[] = Str::studly($table);
 
         return implode('\\', $parts);
     }
@@ -303,7 +307,8 @@ class ModelBuilder implements ModelBuilderInterface
             $parts[] = ucfirst($this->connection);
         }
 
-        $parts[] = Str::studly($this->table) . '.php';
+        $table = $this->prepareTableName($this->table);
+        $parts[] = Str::studly($table) . '.php';
 
         $this->filename = implode('/', $parts);
     }
@@ -318,5 +323,18 @@ class ModelBuilder implements ModelBuilderInterface
     {
         $builder->setModelBuilder($this);
         $content = array_merge($content, $builder->build());
+    }
+
+    /**
+     * Prepare tablename.
+     *
+     * @param string $table
+     * @return string
+     */
+    private function prepareTableName(string $table): string
+    {
+        $outputName = $this->tableDefinition->getOutputName();
+
+        return $outputName !== null ? $outputName : $table;
     }
 }

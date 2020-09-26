@@ -29,11 +29,11 @@ class TimestampsBuilderTest extends TestBase
         $this->setConfig('tables', $configTables);
 
         $lines = $this->createBuilder(TimestampsBuilder::class)->build();
-        $this->assertLinesContains(self::TIMESTAMPS, $lines);
-        $this->assertLinesContains(self::CREATED_AT, $lines);
-        $this->assertLinesContains(self::UPDATED_AT, $lines);
-        $this->assertLinesContains(self::DATE_FORMAT, $lines);
-        $this->assertLinesNotContains(self::TIMESTAMPS_FALSE, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS, $lines);
+        $this->assertLinesContains($this->indent(1) . self::CREATED_AT, $lines);
+        $this->assertLinesContains($this->indent(1) . self::UPDATED_AT, $lines);
+        $this->assertLinesContains($this->indent(1) . self::DATE_FORMAT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::TIMESTAMPS_FALSE, $lines);
     }
 
     /**
@@ -47,11 +47,11 @@ class TimestampsBuilderTest extends TestBase
         $this->setConfig('tables', $configTables);
 
         $lines = $this->createBuilder(TimestampsBuilder::class)->build();
-        $this->assertLinesContains(self::TIMESTAMPS, $lines);
-        $this->assertLinesNotContains(self::CREATED_AT, $lines);
-        $this->assertLinesNotContains(self::UPDATED_AT, $lines);
-        $this->assertLinesNotContains(self::DATE_FORMAT, $lines);
-        $this->assertLinesContains(self::TIMESTAMPS_FALSE, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::CREATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::UPDATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::DATE_FORMAT, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS_FALSE, $lines);
     }
 
     /**
@@ -65,11 +65,11 @@ class TimestampsBuilderTest extends TestBase
         $this->setConfig('tables', $configTables);
 
         $lines = $this->createBuilder(TimestampsBuilder::class)->build();
-        $this->assertLinesContains(self::TIMESTAMPS, $lines);
-        $this->assertLinesNotContains(self::CREATED_AT, $lines);
-        $this->assertLinesNotContains(self::UPDATED_AT, $lines);
-        $this->assertLinesNotContains(self::DATE_FORMAT, $lines);
-        $this->assertLinesContains(self::TIMESTAMPS_FALSE, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::CREATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::UPDATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::DATE_FORMAT, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS_FALSE, $lines);
     }
 
     /**
@@ -83,11 +83,11 @@ class TimestampsBuilderTest extends TestBase
         $this->setConfig('tables', $configTables);
 
         $lines = $this->createBuilder(TimestampsBuilder::class)->build();
-        $this->assertLinesContains(self::TIMESTAMPS, $lines);
-        $this->assertLinesNotContains(self::CREATED_AT, $lines);
-        $this->assertLinesNotContains(self::UPDATED_AT, $lines);
-        $this->assertLinesNotContains(self::DATE_FORMAT, $lines);
-        $this->assertLinesContains(self::TIMESTAMPS_FALSE, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::CREATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::UPDATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::DATE_FORMAT, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS_FALSE, $lines);
     }
 
     /**
@@ -101,10 +101,10 @@ class TimestampsBuilderTest extends TestBase
         $this->setConfig('tables', $configTables);
 
         $lines = $this->createBuilder(TimestampsBuilder::class)->build();
-        $this->assertLinesContains(self::TIMESTAMPS, $lines);
-        $this->assertLinesContains(self::CREATED_AT, $lines);
-        $this->assertLinesContains(self::UPDATED_AT, $lines);
-        $this->assertLinesNotContains(self::DATE_FORMAT, $lines);
-        $this->assertLinesNotContains(self::TIMESTAMPS_FALSE, $lines);
+        $this->assertLinesContains($this->indent(1) . self::TIMESTAMPS, $lines);
+        $this->assertLinesContains($this->indent(1) . self::CREATED_AT, $lines);
+        $this->assertLinesContains($this->indent(1) . self::UPDATED_AT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::DATE_FORMAT, $lines);
+        $this->assertLinesNotContains($this->indent(1) . self::TIMESTAMPS_FALSE, $lines);
     }
 }

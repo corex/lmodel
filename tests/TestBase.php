@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\CoRex\Laravel\Model;
 
 use CoRex\Helpers\Obj;
+use CoRex\Laravel\Model\Constants;
 use CoRex\Laravel\Model\Helpers\Config;
 use CoRex\Laravel\Model\Helpers\Database;
 use CoRex\Laravel\Model\Helpers\ModelBuilder;
@@ -112,7 +113,7 @@ abstract class TestBase extends TestCase
     protected function assertLinesContains(string $needle, array $lines): void
     {
         $message = 'Failed asserting one or more lines contains "' . $needle . '"';
-        $this->assertTrue($this->linesContains($needle, $lines), $message);
+        $this->assertTrue($this->linesContains([$needle], $lines), $message);
     }
 
     /**
@@ -124,7 +125,47 @@ abstract class TestBase extends TestCase
     protected function assertLinesNotContains(string $needle, array $lines): void
     {
         $message = 'Failed asserting one or more lines not contains "' . $needle . '"';
-        $this->assertFalse($this->linesContains($needle, $lines), $message);
+        $this->assertFalse($this->linesContains([$needle], $lines), $message);
+    }
+
+    /**
+     * Assert lines contains lines.
+     *
+     * @param array $needles
+     * @param array $lines
+     */
+    protected function assertLinesContainsLines(array $needles, array $lines): void
+    {
+        $message = 'Failed asserting one or more lines contains "[multiple lines]".';
+        $this->assertTrue($this->linesContains($needles, $lines), $message);
+    }
+
+    /**
+     * Assert lines not contains lines.
+     *
+     * @param array $needles
+     * @param array $lines
+     */
+    protected function assertLinesNotContainsLines(array $needles, array $lines): void
+    {
+        $message = 'Failed asserting one or more lines not contains "[multiple lines]"';
+        $this->assertFalse($this->linesContains($needles, $lines), $message);
+    }
+
+    /**
+     * Get indentation.
+     *
+     * @param int $count
+     * @return string
+     */
+    protected function indent(int $count): string
+    {
+        $indent = $this->modelBuilder->getConfig()->getIndent();
+        if ($indent === null) {
+            $indent = Constants::DEFAULT_INDENT;
+        }
+
+        return str_repeat($indent, $count);
     }
 
     /**
@@ -161,16 +202,20 @@ abstract class TestBase extends TestCase
     /**
      * Has lines.
      *
-     * @param string $needle
+     * @param array $needles
      * @param string[] $lines
      * @return bool
      */
-    private function linesContains(string $needle, array $lines): bool
+    private function linesContains(array $needles, array $lines): bool
     {
-        $found = false;
-        foreach ($lines as $line) {
-            if (strpos($line, $needle) !== false) {
-                $found = true;
+        $found = true;
+        foreach ($needles as $needle) {
+            if (trim($needle) === '') {
+                continue;
+            }
+
+            if (array_search($needle, $lines, true) === false) {
+                $found = false;
             }
         }
 

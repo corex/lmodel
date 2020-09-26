@@ -62,9 +62,8 @@ class PackageDefinition
 
         // Validate "autoload".
         if (!isset($composerJson['autoload']['psr-4'])) {
-            throw new ConfigException(
-                'Could not find autoload.psr-4 in "' . $this->getAbsolutePath() . '/composer.json' . '".'
-            );
+            $message = sprintf('Could not find autoload.psr-4 in "%s/composer.json' . '".', $this->getAbsolutePath());
+            throw new ConfigException($message);
         }
 
         // Resolve namespace.

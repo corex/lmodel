@@ -30,9 +30,12 @@ class PhpDocBuilder extends BaseBuilder
         $this->columnTypeMappings = $config->getPhpDocMappings();
 
         // Header.
-        $phpdocLines = [
-            '/**'
-        ];
+        $phpdocLines = ['/**'];
+
+        // Add phpdoc header.
+        foreach (Constants::PHPDOC_HEADER as $line) {
+            $phpdocLines[] = ' * ' . sprintf($line, $this->connection, $this->table);
+        }
 
         // Phpdoc lines.
         foreach ($columns as $name => $column) {

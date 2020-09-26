@@ -35,7 +35,18 @@ class ConstantsTest extends TestCase
         ],
         'ELOQUENT_CREATED_AT' => 'created_at',
         'ELOQUENT_UPDATED_AT' => 'updated_at',
-        'CHARACTERS' => ['-', '.', ',', ';', ':', ' ', '?', '\'', '"', '#', '%', '&', '/', '\\', '(', ')']
+        'CHARACTERS' => ['-', '.', ',', ';', ':', ' ', '?', '\'', '"', '#', '%', '&', '/', '\\', '(', ')'],
+        'PHPDOC_HEADER' => [
+            'This file has been auto-generated.',
+            'Update settings in config file for table',
+            'and run "make:models %s %s".',
+            ''
+        ],
+        'ATTRIBUTES_FILLABLE' => 'The attributes that are mass assignable.',
+        'ATTRIBUTES_GUARDED' => 'The attributes that aren\'t mass assignable.',
+        'ATTRIBUTES_HIDDEN' => 'The attributes that should be hidden for arrays.',
+        'ATTRIBUTES_CASTS' => 'The attributes that should be cast to native types.',
+        'ATTRIBUTES_ACCESSORS' => 'The accessors to append to the model\'s array form.'
     ];
 
     /**

@@ -32,6 +32,16 @@ class TableDefinition
     }
 
     /**
+     * Get output name.
+     *
+     * @return string|null
+     */
+    public function getOutputName(): ?string
+    {
+        return $this->data['output_name'] ?? null;
+    }
+
+    /**
      * Get timestamps "created_at".
      *
      * @return string|null
@@ -89,6 +99,36 @@ class TableDefinition
     public function getReadonlyColumns(): array
     {
         return $this->get('readonly', []);
+    }
+
+    /**
+     * Get hidden attributes.
+     *
+     * @return array|null
+     */
+    public function getHiddenAttributes(): array
+    {
+        return $this->get('hidden', []);
+    }
+
+    /**
+     * Get cast attributes.
+     *
+     * @return array|null
+     */
+    public function getCastAttributes(): array
+    {
+        return $this->get('casts', []);
+    }
+
+    /**
+     * Get accessors.
+     *
+     * @return array|null
+     */
+    public function getAccessors(): array
+    {
+        return $this->get('appends', []);
     }
 
     /**

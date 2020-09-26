@@ -19,8 +19,14 @@ class ConstantsBuilderTest extends TestBase
     {
         $lines = $this->createBuilder(ConstantsBuilder::class)->build();
         for ($counter = 1; $counter <= 10; $counter++) {
-            $this->assertLinesContains('public const NUMCODE_' . $counter . 'S = ' . $counter . ';', $lines);
-            $this->assertLinesContains('public const STRCODE_' . $counter . 'S = \'String ' . $counter . '\';', $lines);
+            $this->assertLinesContains(
+                $this->indent(1) . 'public const NUMCODE_' . $counter . 'S = ' . $counter . ';',
+                $lines
+            );
+            $this->assertLinesContains(
+                $this->indent(1) . 'public const STRCODE_' . $counter . 'S = \'String ' . $counter . '\';',
+                $lines
+            );
         }
     }
 

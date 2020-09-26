@@ -13,6 +13,9 @@ Connect to your existing database and generate models based on existing schema.
 - Support for custom code (preserved lines).
 - Support for fillable fields.
 - Support for guarded fields.
+- Support for hidden attributes.
+- Support for castable attributes.
+- Support for appendable accessors.
 - Support for custom "extends".
 - Support for multiple groups of constants in model.
 - Support for custom "indent".

@@ -76,7 +76,10 @@ class TestData
                 'date_format' => 'U',
                 'fillable' => ['code', 'number', 'string'],
                 'guarded' => ['code', 'number', 'string'],
-                'readonly' => ['code']
+                'readonly' => ['code'],
+                'hidden' => ['code', 'number', 'string'],
+                'casts' => ['field1' => 'code', 'field2' => 'number', 'field3' => 'string'],
+                'appends' => ['code', 'number', 'string'],
             ],
             self::getConstantsData()
         );

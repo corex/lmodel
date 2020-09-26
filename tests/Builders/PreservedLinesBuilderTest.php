@@ -15,7 +15,7 @@ class PreservedLinesBuilderTest extends TestBase
     public function testBuildContains(): void
     {
         $lines = $this->createBuilder(PreservedLinesBuilder::class)->build();
-        $this->assertLinesContains('public function test', $lines);
+        $this->assertLinesContains($this->indent(1) . 'public function test(): void', $lines);
     }
 
     /**
